@@ -11,6 +11,8 @@ import UIKit
 final class ImageListCell: UITableViewCell {
     @IBOutlet var mainImageView: UIImageView!
     @IBOutlet var heartButton: UIButton!
+    @IBOutlet var imageDateLabel: UILabel!
+    @IBOutlet var gradientLayer: UIView!
     
     static let reusableIdentifier = "ImagesListCell"
 }

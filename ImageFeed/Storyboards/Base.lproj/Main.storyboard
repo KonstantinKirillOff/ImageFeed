@@ -6,29 +6,82 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Images List View Controller-->
+        <!--Image list-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Image list" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="co4-iD-ehj">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="YP Black"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="b4e-n2-Hdw">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="375" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImagesListCell" rowHeight="150" id="b4e-n2-Hdw" customClass="ImageListCell" customModule="ImageFeed" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b4e-n2-Hdw" id="4Dy-aU-6Zb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OP9-83-wZW">
+                                                    <rect key="frame" x="16" y="4" width="343" height="142"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7U8-jh-slb">
+                                                    <rect key="frame" x="319.66666666666669" y="12.000000000000002" width="45.333333333333314" height="30.666666666666671"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system"/>
+                                                </button>
+                                                <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTr-4Q-UA3" customClass="GradientView" customModule="ImageFeed" customModuleProvider="target">
+                                                    <rect key="frame" x="16" y="120" width="343" height="30"/>
+                                                    <color key="backgroundColor" white="1" alpha="0.75318191225165565" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="Yse-CH-DCb"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                            <color key="value" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                            <color key="value" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.2532853890728477" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZg-RO-t17">
+                                                    <rect key="frame" x="24" y="124" width="30.333333333333329" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="18" id="GoW-FV-TgC"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="SinhalaSangamMN" family="Sinhala Sangam MN" pointSize="13"/>
+                                                    <color key="textColor" name="YP Black"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="7U8-jh-slb" firstAttribute="top" secondItem="4Dy-aU-6Zb" secondAttribute="top" constant="12" id="4vZ-8w-ZUf"/>
+                                                <constraint firstItem="PZg-RO-t17" firstAttribute="leading" secondItem="OP9-83-wZW" secondAttribute="leading" constant="8" id="ARy-pe-fRy"/>
+                                                <constraint firstAttribute="trailing" secondItem="7U8-jh-slb" secondAttribute="trailing" constant="10" id="BLE-zy-cNh"/>
+                                                <constraint firstAttribute="bottom" secondItem="PZg-RO-t17" secondAttribute="bottom" constant="8" id="FBt-Rp-ojW"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZTr-4Q-UA3" secondAttribute="trailing" constant="16" id="L6o-Jl-hng"/>
+                                                <constraint firstItem="ZTr-4Q-UA3" firstAttribute="leading" secondItem="4Dy-aU-6Zb" secondAttribute="leading" constant="16" id="VFL-dL-w0e"/>
+                                                <constraint firstItem="OP9-83-wZW" firstAttribute="top" secondItem="4Dy-aU-6Zb" secondAttribute="top" constant="4" id="Vn3-Ii-5cQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="OP9-83-wZW" secondAttribute="trailing" constant="16" id="WaX-pv-sys"/>
+                                                <constraint firstItem="OP9-83-wZW" firstAttribute="leading" secondItem="4Dy-aU-6Zb" secondAttribute="leading" constant="16" id="Y8v-ce-P32"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZTr-4Q-UA3" secondAttribute="bottom" id="odf-MA-Kk4"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PZg-RO-t17" secondAttribute="trailing" id="s1c-wD-rV0"/>
+                                                <constraint firstAttribute="bottom" secondItem="OP9-83-wZW" secondAttribute="bottom" constant="4" id="yOe-hu-Zzr"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" name="YP Black"/>
+                                        <connections>
+                                            <outlet property="gradientLayer" destination="ZTr-4Q-UA3" id="yw3-1Z-gLT"/>
+                                            <outlet property="heartButton" destination="7U8-jh-slb" id="4aL-u0-t7S"/>
+                                            <outlet property="imageDateLabel" destination="PZg-RO-t17" id="gO2-fB-CCM"/>
+                                            <outlet property="mainImageView" destination="OP9-83-wZW" id="WcJ-cX-GWR"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -48,15 +101,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="61" y="106"/>
+            <point key="canvasLocation" x="59.420289855072468" y="105.16304347826087"/>
         </scene>
     </scenes>
     <resources>
+        <image name="heart.fill" catalog="system" width="128" height="109"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
