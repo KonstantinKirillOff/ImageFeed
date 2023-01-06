@@ -51,11 +51,11 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZg-RO-t17">
-                                                    <rect key="frame" x="24" y="124" width="30.5" height="18"/>
+                                                    <rect key="frame" x="24" y="124" width="33" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="GoW-FV-TgC"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="SinhalaSangamMN" family="Sinhala Sangam MN" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" name="YP Black"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
