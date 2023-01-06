@@ -35,9 +35,10 @@
                                                     <rect key="frame" x="358.5" y="12" width="45.5" height="31"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="heart.fill" catalog="system"/>
                                                 </button>
-                                                <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTr-4Q-UA3" customClass="GradientView" customModule="ImageFeed" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTr-4Q-UA3" customClass="GradientView" customModule="ImageFeed" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="120" width="382" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="0.75318191225165565" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="tintColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Yse-CH-DCb"/>
                                                     </constraints>
@@ -75,7 +76,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="OP9-83-wZW" secondAttribute="bottom" constant="4" id="yOe-hu-Zzr"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" name="YP Black"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="gradientLayer" destination="ZTr-4Q-UA3" id="yw3-1Z-gLT"/>
                                             <outlet property="heartButton" destination="7U8-jh-slb" id="4aL-u0-t7S"/>
