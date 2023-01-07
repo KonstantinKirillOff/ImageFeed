@@ -8,16 +8,8 @@
 import UIKit
 
 class ImagesListViewController: UIViewController {
-
     @IBOutlet private var tableView: UITableView!
-    
     private let photosName = Array(0..<20).map({"\($0)"})
-    private lazy var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .none
-        return dateFormatter
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,35 +36,8 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell, indexPath: indexPath)
+        imageListCell.configCell(for: imageListCell, indexPath: indexPath, photo: photosName[indexPath.row])
         return imageListCell
-    }
-    
-    func configCell(for cell: ImageListCell, indexPath: IndexPath) {
-        let photo = photosName[indexPath.row]
-        
-        if let image = UIImage(named: photo) {
-            cell.mainImageView.image = image
-        } else {
-            cell.mainImageView.image = UIImage(systemName: "photo")
-        }
-        
-        if indexPath.row.isMultiple(of: 2) {
-            cell.heartButton.setImage(UIImage(named: "Active") , for: .normal)
-        } else {
-            cell.heartButton.setImage(UIImage(named: "No Active") , for: .normal)
-        }
-        
-        cell.mainImageView.layer.cornerRadius = 16
-        cell.mainImageView.layer.masksToBounds = true
-    
-        cell.gradientLayer.layer.cornerRadius = 16
-        cell.gradientLayer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-        cell.gradientLayer.layer.masksToBounds = true
-        cell.gradientLayer.alpha = 0.2
-        
-        cell.imageDateLabel.textColor = UIColor(named: "YP White")
-        cell.imageDateLabel.text = dateFormatter.string(from: Date())
     }
 }
 
@@ -90,7 +55,7 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
