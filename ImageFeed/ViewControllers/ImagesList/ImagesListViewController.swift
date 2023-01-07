@@ -65,6 +65,11 @@ extension ImagesListViewController: UITableViewDataSource {
         
         cell.mainImageView.layer.cornerRadius = 16
         cell.mainImageView.layer.masksToBounds = true
+    
+        cell.gradientLayer.layer.cornerRadius = 16
+        cell.gradientLayer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
+        cell.gradientLayer.layer.masksToBounds = true
+        cell.gradientLayer.alpha = 0.2
         
         cell.imageDateLabel.textColor = UIColor(named: "YP White")
         cell.imageDateLabel.text = dateFormatter.string(from: Date())
