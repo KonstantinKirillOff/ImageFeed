@@ -15,6 +15,7 @@
 		43F5D9BB295ABD6F00BADC86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43F5D9B9295ABD6F00BADC86 /* LaunchScreen.storyboard */; };
 		43F5D9E3296561C500BADC86 /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9E2296561C500BADC86 /* ImageListCell.swift */; };
 		43F5D9EA2966952900BADC86 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9E92966952900BADC86 /* GradientView.swift */; };
+		43F5D9EC296AA8D600BADC86 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9EB296AA8D600BADC86 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		43F5D9BC295ABD6F00BADC86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43F5D9E2296561C500BADC86 /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
 		43F5D9E92966952900BADC86 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		43F5D9EB296AA8D600BADC86 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ImagesList/ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 		43F5D9E62965626A00BADC86 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				43F5D9EB296AA8D600BADC86 /* ProfileViewController.swift */,
 				43F5D9E52965621700BADC86 /* ImagesList */,
 			);
 			path = ViewControllers;
@@ -184,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43F5D9EC296AA8D600BADC86 /* ProfileViewController.swift in Sources */,
 				43F5D9B3295ABD6F00BADC86 /* ImagesListViewController.swift in Sources */,
 				43F5D9E3296561C500BADC86 /* ImageListCell.swift in Sources */,
 				43F5D9EA2966952900BADC86 /* GradientView.swift in Sources */,
