@@ -16,6 +16,7 @@
 		43F5D9E3296561C500BADC86 /* ImageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9E2296561C500BADC86 /* ImageListCell.swift */; };
 		43F5D9EA2966952900BADC86 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9E92966952900BADC86 /* GradientView.swift */; };
 		43F5D9EC296AA8D600BADC86 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9EB296AA8D600BADC86 /* ProfileViewController.swift */; };
+		43F5D9EE296D26D000BADC86 /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F5D9ED296D26D000BADC86 /* SingleImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		43F5D9E2296561C500BADC86 /* ImageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListCell.swift; sourceTree = "<group>"; };
 		43F5D9E92966952900BADC86 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		43F5D9EB296AA8D600BADC86 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ImagesList/ProfileViewController.swift; sourceTree = "<group>"; };
+		43F5D9ED296D26D000BADC86 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				43F5D9EB296AA8D600BADC86 /* ProfileViewController.swift */,
+				43F5D9ED296D26D000BADC86 /* SingleImageViewController.swift */,
 				43F5D9E52965621700BADC86 /* ImagesList */,
 			);
 			path = ViewControllers;
@@ -190,6 +193,7 @@
 				43F5D9EC296AA8D600BADC86 /* ProfileViewController.swift in Sources */,
 				43F5D9B3295ABD6F00BADC86 /* ImagesListViewController.swift in Sources */,
 				43F5D9E3296561C500BADC86 /* ImageListCell.swift in Sources */,
+				43F5D9EE296D26D000BADC86 /* SingleImageViewController.swift in Sources */,
 				43F5D9EA2966952900BADC86 /* GradientView.swift in Sources */,
 				43F5D9AF295ABD6F00BADC86 /* AppDelegate.swift in Sources */,
 				43F5D9B1295ABD6F00BADC86 /* SceneDelegate.swift in Sources */,
