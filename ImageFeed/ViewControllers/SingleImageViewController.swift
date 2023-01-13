@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var scrollView: UIScrollView!
     
@@ -37,6 +37,10 @@ class SingleImageViewController: UIViewController {
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        //rescaleAndCenterImageInScrollView(image: image)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
