@@ -32,6 +32,15 @@ final class SingleImageViewController: UIViewController {
     @IBAction func backwardButtonTapped() {
         dismiss(animated: true)
     }
+    
+    @IBAction func sharedButtonTapped() {
+        if let image = image {
+            let imageShare = [image]
+            let activityVC = UIActivityViewController(activityItems: imageShare, applicationActivities: nil)
+            self.present(activityVC, animated: true)
+        }
+    }
+    
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
@@ -39,14 +48,24 @@ extension SingleImageViewController: UIScrollViewDelegate {
         imageView
     }
     
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        //rescaleAndCenterImageInScrollView(image: image)
+    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+        view.layoutIfNeeded()
+        rescaleImageInScrollView(image: image)
+        centerImage(image: image)
     }
     
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func centerImage(image: UIImage) {
+        let visibleRectSize = scrollView.bounds.size
+        let newContentSize = scrollView.contentSize
+        let x = (newContentSize.width - visibleRectSize.width) / 2
+        let y = (newContentSize.height - visibleRectSize.height) / 2
+        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    private func rescaleImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
-        view.layoutIfNeeded()
+        
         let visibleRectSize = scrollView.bounds.size
         let imageSize = image.size
         let hScale = visibleRectSize.width / imageSize.width
@@ -54,9 +73,5 @@ extension SingleImageViewController: UIScrollViewDelegate {
         let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
-        let newContentSize = scrollView.contentSize
-        let x = (newContentSize.width - visibleRectSize.width) / 2
-        let y = (newContentSize.height - visibleRectSize.height) / 2
-        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
 }

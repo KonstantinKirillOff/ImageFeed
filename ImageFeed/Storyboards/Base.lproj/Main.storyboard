@@ -137,11 +137,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eYh-t7-i4u">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="414" translatesAutoresizingMaskIntoConstraints="NO" id="eYh-t7-i4u">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="GZe-DN-f6K">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="132"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="414" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="GZe-DN-f6K">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -165,12 +165,22 @@
                                     <action selector="backwardButtonTapped" destination="M2g-Fi-RHP" eventType="touchUpInside" id="jgT-pv-WAR"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f9q-FL-5xr">
+                                <rect key="frame" x="170" y="743" width="50" height="50"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Sharing"/>
+                                <connections>
+                                    <action selector="sharedButtonTapped" destination="M2g-Fi-RHP" eventType="touchUpInside" id="n2m-Fo-Oy8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZEF-MM-roh"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="ZEF-MM-roh" firstAttribute="trailing" secondItem="eYh-t7-i4u" secondAttribute="trailing" id="0YC-8G-kt9"/>
                             <constraint firstAttribute="bottom" secondItem="eYh-t7-i4u" secondAttribute="bottom" id="Aft-pA-sfs"/>
+                            <constraint firstItem="f9q-FL-5xr" firstAttribute="centerX" secondItem="i1D-fn-Q7r" secondAttribute="centerX" id="Dcd-py-AD3"/>
+                            <constraint firstItem="ZEF-MM-roh" firstAttribute="bottom" secondItem="f9q-FL-5xr" secondAttribute="bottom" constant="17" id="HSB-5R-DNv"/>
                             <constraint firstItem="eYh-t7-i4u" firstAttribute="top" secondItem="i1D-fn-Q7r" secondAttribute="top" id="gJh-NJ-l0k"/>
                             <constraint firstItem="WeM-VJ-JTR" firstAttribute="top" secondItem="ZEF-MM-roh" secondAttribute="top" constant="9" id="jC5-i2-jWu"/>
                             <constraint firstItem="eYh-t7-i4u" firstAttribute="leading" secondItem="ZEF-MM-roh" secondAttribute="leading" id="v72-g6-XnU"/>
@@ -270,6 +280,7 @@
         <image name="Backward" width="9" height="15.666666984558105"/>
         <image name="Exit" width="20" height="22"/>
         <image name="Profile" width="24" height="24"/>
+        <image name="Sharing" width="50" height="50"/>
         <image name="UserPick" width="70" height="70"/>
         <image name="heart.fill" catalog="system" width="128" height="109"/>
         <image name="listImage" width="20" height="22"/>
