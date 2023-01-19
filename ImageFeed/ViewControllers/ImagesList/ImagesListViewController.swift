@@ -7,9 +7,10 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     private let photosName = Array(0..<20).map({"\($0)"})
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,18 @@ class ImagesListViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showSingleImageSegueIdentifier {
+            let singleImageVC = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let imageName = photosName[indexPath.row]
+            let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
+            singleImageVC.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
     }
 }
 
@@ -56,6 +69,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
 }
 
