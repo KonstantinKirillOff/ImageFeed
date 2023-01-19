@@ -8,8 +8,8 @@
 import UIKit
 
 final class SingleImageViewController: UIViewController {
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var scrollView: UIScrollView!
     
     var image: UIImage! {
         didSet {
@@ -29,11 +29,11 @@ final class SingleImageViewController: UIViewController {
         scrollView.minimumZoomScale = 0.1
     }
     
-    @IBAction func backwardButtonTapped() {
+    @IBAction private func backwardButtonTapped() {
         dismiss(animated: true)
     }
     
-    @IBAction func sharedButtonTapped() {
+    @IBAction private func sharedButtonTapped() {
         if let image = image {
             let imageShare = [image]
             let activityVC = UIActivityViewController(activityItems: imageShare, applicationActivities: nil)

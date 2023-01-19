@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     private lazy var userPickImage: UIImageView = {
         if let userImage = UIImage(named: "UserPick") {
             return configImage(image: userImage)
-        } else {
-            return UIImageView()
         }
+        
+        return UIImageView()
     }()
     
     private lazy var escapeButton: UIButton = {
@@ -24,9 +24,9 @@ class ProfileViewController: UIViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(button)
             return button
-        } else {
-            return UIButton()
         }
+        
+        return UIButton()
     }()
     
     private lazy var userName: UILabel = {
