@@ -10,9 +10,9 @@ import Foundation
 final class OAuth2TokenStorage {
     private let userDefault = UserDefaults.standard
         
-    var token: String {
+    var token: String? {
         get {
-            userDefault.string(forKey: "bearerToken") ?? ""
+            userDefault.string(forKey: "bearerToken")
         }
         set {
             userDefault.set(newValue, forKey: "bearerToken")

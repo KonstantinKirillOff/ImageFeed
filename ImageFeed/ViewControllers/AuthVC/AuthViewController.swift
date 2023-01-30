@@ -9,12 +9,12 @@ import UIKit
 
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
-    private let authRouting = OAuth2Service()
-    private let tokenStorage = OAuth2TokenStorage()
+    var authRouting: OAuth2ServiceRouting!
+    var tokenStorage: OAuth2TokenStorage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("token: \(tokenStorage.token)")
+        //print("token: \(tokenStorage.token!)")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

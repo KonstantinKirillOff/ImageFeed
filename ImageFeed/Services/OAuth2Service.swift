@@ -16,7 +16,7 @@ protocol OAuth2ServiceRouting {
     func fetchAuthToken(by code: String, completion: @escaping  (Result<String, Error>) -> Void)
 }
 
-final class OAuth2Service {
+final class OAuth2Service: OAuth2ServiceRouting {
     func fetchAuthToken(by code: String, completion: @escaping  (Result<String, Error>) -> Void) {
         var urlComponents = URLComponents(string: UnsplashTokenURLString)!
         urlComponents.queryItems = [
