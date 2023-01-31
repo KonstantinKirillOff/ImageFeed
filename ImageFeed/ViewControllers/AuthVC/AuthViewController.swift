@@ -7,15 +7,14 @@
 
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
+
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
-    var authRouting: OAuth2ServiceRouting!
-    var tokenStorage: OAuth2TokenStorage!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //print("token: \(tokenStorage.token!)")
-    }
+    var authRouting: OAuth2Service!
+    weak var delegate: AuthViewControllerDelegate!
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
@@ -29,19 +28,7 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWith code: String) {
-        authRouting.fetchAuthToken(by: code) { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            
-            switch result {
-            case .success(let token):
-                self.tokenStorage.token = token
-                print("token: \(token)")
-            case .failure(_):
-                print("error")
-            }
-        }
+        delegate.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

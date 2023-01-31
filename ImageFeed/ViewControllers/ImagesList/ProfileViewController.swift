@@ -13,7 +13,6 @@ final class ProfileViewController: UIViewController {
         if let userImage = UIImage(named: "UserPick") {
             return configImage(image: userImage)
         }
-        
         return UIImageView()
     }()
     
@@ -25,7 +24,6 @@ final class ProfileViewController: UIViewController {
             view.addSubview(button)
             return button
         }
-        
         return UIButton()
     }()
     
@@ -52,7 +50,6 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = UIColor.ypBlack
         setConstraints()
     }

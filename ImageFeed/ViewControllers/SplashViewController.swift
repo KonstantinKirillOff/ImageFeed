@@ -10,13 +10,11 @@ import UIKit
 class SplashViewController: UIViewController {
     private let showGalleryFlowIdentifier = "showGalleryFlow"
     private let showAuthFlowIdentifier = "showAuthFlow"
-    
-    private let authService = OAuth2Service()
-    private let tokenStorage = OAuth2TokenStorage()
-    
+    private let authService = OAuth2Service.shared
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.removeObject(forKey: "bearerToken")
+        //UserDefaults.standard.removeObject(forKey: "bearerToken")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,11 +29,24 @@ class SplashViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showAuthFlowIdentifier {
-            guard let authVC = segue.destination as? AuthViewController else { return }
+            guard let navigationController = segue.destination as? UINavigationController else { return }
+            guard let authVC = navigationController.topViewController as? AuthViewController else { return }
             authVC.authRouting = authService
-            authVC.tokenStorage = tokenStorage
+            authVC.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
+        }
+    }
+}
+
+extension SplashViewController: AuthViewControllerDelegate {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        <#code#>
+    }
+    
+    private func switchToTapBarController() {
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid configuration")
         }
     }
 }
