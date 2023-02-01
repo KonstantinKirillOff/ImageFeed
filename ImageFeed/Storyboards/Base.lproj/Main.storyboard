@@ -13,7 +13,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="dDi-kk-Fty">
             <objects>
-                <tabBarController id="8dd-SX-SqU" sceneMemberID="viewController">
+                <tabBarController restorationIdentifier="TabBarViewController" id="8dd-SX-SqU" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yez-qn-ghb"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oV5-om-RUx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

@@ -13,6 +13,12 @@ protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
+fileprivate struct AuthConstants {
+    static let responseType = "code"
+    static let authPath = "/oauth/authorize"
+    static let codePath = "/oauth/authorize/native"
+}
+
 final class WebViewViewController: UIViewController {
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
@@ -26,17 +32,10 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: AccessKey),
-            URLQueryItem(name: "redirect_uri", value: RedirectURI),
-            URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: AccessScope),
-        ]
-        let url = urlComponents.url!
-        let request = URLRequest(url: url)
-        webView.load(request)
-        
+        guard let urlRequest = authRequest() else {
+            fatalError("Bad auth request!")
+        }
+        webView.load(urlRequest)
         webView.navigationDelegate = self
     }
     
@@ -45,7 +44,10 @@ final class WebViewViewController: UIViewController {
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress))
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
             updateProgress()
         } else {
@@ -61,10 +63,26 @@ final class WebViewViewController: UIViewController {
         progressView.setProgress(Float(webView.estimatedProgress), animated: true)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
+    
+    private func authRequest() -> URLRequest? {
+        guard var urlComponents = URLComponents(string: Constants.baseURLString) else { return nil }
+        urlComponents.path = AuthConstants.authPath
+        urlComponents.queryItems = [
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "response_type", value: AuthConstants.responseType),
+            URLQueryItem(name: "scope", value: Constants.accessScope),
+        ]
+        if let url = urlComponents.url {
+            return URLRequest(url: url)
+        }
+        return nil
+    }
 }
 
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        //print("AUTH",navigationAction.request.url!)
         if let code = code(from: navigationAction) {
             delegate.webViewViewController(self, didAuthenticateWith: code)
             decisionHandler(.cancel)
@@ -76,9 +94,9 @@ extension WebViewViewController: WKNavigationDelegate {
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url,
            let urlComponents = URLComponents(string: url.absoluteString) ,
-           urlComponents.path == "/oauth/authorize/native",
+           urlComponents.path == AuthConstants.codePath,
            let items = urlComponents.queryItems,
-           let codeItems = items.first(where: { $0.name == "code" }) {
+           let codeItems = items.first(where: { $0.name == AuthConstants.responseType }) {
             return codeItems.value
         } else {
             return nil

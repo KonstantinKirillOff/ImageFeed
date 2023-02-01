@@ -10,20 +10,23 @@ import Foundation
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private let urlSession = URLSession.shared
+    private let tokenStorage = OAuth2TokenStorage.shared
     
     private (set) var authToken: String? {
         get {
-            OAuth2TokenStorage().token
+            tokenStorage.token
         }
         set {
-            OAuth2TokenStorage().token = newValue
+            tokenStorage.token = newValue
         }
     }
     
     private init() {}
     
     func fetchAuthToken(by code: String, completion: @escaping  (Result<String, Error>) -> Void) {
-        let urlRequest = authTokenRequest(code: code)
+        guard let urlRequest = authTokenRequest(code: code) else {
+            fatalError("Bad auth token request")
+        }
         
         let task = object(for: urlRequest) { [weak self] result in
             guard let self = self else { return }
@@ -59,40 +62,39 @@ final class OAuth2Service {
 
 //MARK: requests methods
 extension OAuth2Service {
-    private func selfProfileRequest() -> URLRequest {
+    private func selfProfileRequest() -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/me")
     }
     
-    private func profileImageRequest(username: String) -> URLRequest {
+    private func profileImageRequest(username: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/users/\(username)")
     }
     
-    private func photosRequest(page: Int, perPage: Int) -> URLRequest {
+    private func photosRequest(page: Int, perPage: Int) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos?"
         + "page=\(page)"
-        + "&&per_page=\(perPage)"
-        )
+        + "&&per_page=\(perPage)")
     }
     
-    private func likeRequest(photoID: String) -> URLRequest {
+    private func likeRequest(photoID: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoID)/like",
                                    httpMethod: "POST")
     }
     
-    private func unlikeRequest(photoID: String) -> URLRequest {
+    private func unlikeRequest(photoID: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoID)/like",
                                    httpMethod: "DELETE")
     }
     
-    private func authTokenRequest(code: String) -> URLRequest {
+    private func authTokenRequest(code: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(
-            path: "/oauth/token"
-            + "?client_id=\(AccessKey)"
-            + "&&redirect_uri=\(RedirectURI)"
+            path: Constants.baseAuthTokenPath
+            + "?client_id=\(Constants.accessKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
-            baseURL: DefaultBaseURL
+            baseURLString: Constants.baseURLString
         )
     }
 }

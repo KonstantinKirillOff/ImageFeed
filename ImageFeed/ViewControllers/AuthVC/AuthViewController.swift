@@ -13,7 +13,6 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
-    var authRouting: OAuth2Service!
     weak var delegate: AuthViewControllerDelegate!
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
