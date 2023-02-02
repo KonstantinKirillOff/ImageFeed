@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4349F550297C77840071F0F6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349F54F297C77840071F0F6 /* Constants.swift */; };
-		4349F552298057460071F0F6 /* AuthViewControllerManualLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349F551298057460071F0F6 /* AuthViewControllerManualLayout.swift */; };
 		4349F5552980634B0071F0F6 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349F5542980634B0071F0F6 /* WebViewViewController.swift */; };
 		4349F557298256F00071F0F6 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349F556298256F00071F0F6 /* AuthViewController.swift */; };
 		4349F55A298589B50071F0F6 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4349F559298589B50071F0F6 /* OAuthTokenResponseBody.swift */; };
@@ -33,7 +32,6 @@
 
 /* Begin PBXFileReference section */
 		4349F54F297C77840071F0F6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		4349F551298057460071F0F6 /* AuthViewControllerManualLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerManualLayout.swift; sourceTree = "<group>"; };
 		4349F5542980634B0071F0F6 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		4349F556298256F00071F0F6 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		4349F559298589B50071F0F6 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				4349F556298256F00071F0F6 /* AuthViewController.swift */,
-				4349F551298057460071F0F6 /* AuthViewControllerManualLayout.swift */,
 				4349F5542980634B0071F0F6 /* WebViewViewController.swift */,
 			);
 			path = AuthVC;
@@ -273,7 +270,6 @@
 				43F5D9EA2966952900BADC86 /* GradientView.swift in Sources */,
 				43F5D9AF295ABD6F00BADC86 /* AppDelegate.swift in Sources */,
 				43F5D9B1295ABD6F00BADC86 /* SceneDelegate.swift in Sources */,
-				4349F552298057460071F0F6 /* AuthViewControllerManualLayout.swift in Sources */,
 				4349F550297C77840071F0F6 /* Constants.swift in Sources */,
 				4349F5632985ADA20071F0F6 /* SplashViewController.swift in Sources */,
 				4349F56A29879EB10071F0F6 /* UIColor+extension.swift in Sources */,

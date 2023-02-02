@@ -82,7 +82,6 @@ final class WebViewViewController: UIViewController {
 
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        //print("AUTH",navigationAction.request.url!)
         if let code = code(from: navigationAction) {
             delegate.webViewViewController(self, didAuthenticateWith: code)
             decisionHandler(.cancel)

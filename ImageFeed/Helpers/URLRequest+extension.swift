@@ -11,13 +11,11 @@ extension URLRequest {
     static func makeHTTPRequest(path: String,
                                 httpMethod: String = "GET",
                                 baseURLString: String = Constants.defaultApiBaseURLString) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: baseURLString) else { return nil }
-        urlComponents.path = path
-        if let url = urlComponents.url {
-            var urlRequest = URLRequest(url: url)
-            urlRequest.httpMethod = httpMethod
-            return urlRequest
-        }
-        return nil
+        guard let url = URL(string: baseURLString) else { return nil }
+        guard let baseUrl = URL(string: path, relativeTo: url) else { return nil }
+        
+        var request = URLRequest(url: baseUrl)
+        request.httpMethod = httpMethod
+        return request
     }
 }

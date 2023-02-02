@@ -88,13 +88,14 @@ extension OAuth2Service {
     
     private func authTokenRequest(code: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(
-            path: Constants.baseAuthTokenPath
+            path: "\(Constants.baseAuthTokenPath)"
             + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
             + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
             baseURLString: Constants.baseURLString
         )
-    }
+   }
 }
