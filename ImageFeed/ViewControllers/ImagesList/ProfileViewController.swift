@@ -13,47 +13,44 @@ final class ProfileViewController: UIViewController {
         if let userImage = UIImage(named: "UserPick") {
             return configImage(image: userImage)
         }
-        
         return UIImageView()
     }()
     
     private lazy var escapeButton: UIButton = {
         if let exitImage = UIImage(named: "Exit") {
             let button = UIButton.systemButton(with: exitImage, target: self, action: #selector(exitButtonTapped))
-            button.tintColor = UIColor(named: "YP Red")
+            button.tintColor = UIColor.ypRed
             button.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(button)
             return button
         }
-        
         return UIButton()
     }()
     
     private lazy var userName: UILabel = {
         let label = configLabel(text: "Екатерина Новикова")
-        label.textColor = UIColor(named: "YP White")
+        label.textColor = UIColor.ypWhite
         label.font = .systemFont(ofSize: 23, weight: .bold)
         return label
     }()
     
     private lazy var userLogin: UILabel = {
         let label =  configLabel(text: "@ekaterina_nov")
-        label.textColor = UIColor(named: "YP Gray")
+        label.textColor = UIColor.ypGrey
         label.font = .systemFont(ofSize: 13, weight: .regular)
         return label
     }()
     
     private lazy var userMessage: UILabel = {
         let label =  configLabel(text: "Hello, world!")
-        label.textColor = UIColor(named: "YP White")
+        label.textColor = UIColor.ypWhite
         label.font = .systemFont(ofSize: 13, weight: .regular)
         return label
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = UIColor(named: "YP Black")
+        view.backgroundColor = UIColor.ypBlack
         setConstraints()
     }
     
