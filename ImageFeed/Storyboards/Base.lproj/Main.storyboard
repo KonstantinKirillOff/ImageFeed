@@ -344,7 +344,6 @@
                     </view>
                     <connections>
                         <segue destination="ifN-jg-ODQ" kind="presentation" identifier="showAuthFlow" modalPresentationStyle="fullScreen" id="zgJ-WH-dGZ"/>
-                        <segue destination="8dd-SX-SqU" kind="presentation" identifier="showGalleryFlow" modalPresentationStyle="fullScreen" id="749-qQ-SKj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apr-WO-isP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -354,7 +353,6 @@
         <!--Navigation Controller-->
         <scene sceneID="BWU-wx-nIN">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="j32-Ca-Xh2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ifN-jg-ODQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="1Eo-RL-spd"/>
@@ -367,6 +365,7 @@
                         <segue destination="2af-tr-Olk" kind="relationship" relationship="rootViewController" id="Ej5-HN-PME"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j32-Ca-Xh2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-186" y="-1302"/>
         </scene>

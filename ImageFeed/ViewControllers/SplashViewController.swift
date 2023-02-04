@@ -10,18 +10,12 @@ import UIKit
 class SplashViewController: UIViewController {
     private let showGalleryFlowIdentifier = "showGalleryFlow"
     private let showAuthFlowIdentifier = "showAuthFlow"
-    private let authService = OAuth2Service.shared
-    private let tokenStorage = OAuth2TokenStorage.shared
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let _ = tokenStorage.token  {
-            performSegue(withIdentifier: showGalleryFlowIdentifier, sender: nil)
+        if let _ = OAuth2TokenStorage.shared.token  {
+            switchToTapBarController()
         } else {
             performSegue(withIdentifier: showAuthFlowIdentifier, sender: nil)
         }
@@ -59,7 +53,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
-            self.authService.fetchAuthToken(by: code) { result in
+            OAuth2Service.shared.fetchAuthToken(by: code) { result in
                 switch result {
                 case .success(_):
                     self.switchToTapBarController()
