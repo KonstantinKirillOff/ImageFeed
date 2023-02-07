@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 class SplashViewController: UIViewController {
     private let showGalleryFlowIdentifier = "showGalleryFlow"
@@ -51,12 +52,14 @@ class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.show()
         vc.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             OAuth2Service.shared.fetchAuthToken(by: code) { result in
                 switch result {
                 case .success(_):
                     self.switchToTapBarController()
+                    ProgressHUD.dismiss()
                 case .failure(let error):
                     //TODO: show alert
                     print(error.localizedDescription)

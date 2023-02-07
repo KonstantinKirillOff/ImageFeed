@@ -12,6 +12,9 @@ final class OAuth2Service {
     private let urlSession = URLSession.shared
     private let tokenStorage = OAuth2TokenStorage.shared
     
+    private var currentTask: URLSessionTask?
+    private var lastCode: String?
+    
     private (set) var authToken: String? {
         get {
             tokenStorage.token
@@ -24,6 +27,20 @@ final class OAuth2Service {
     private init() {}
     
     func fetchAuthToken(by code: String, completion: @escaping  (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if currentTask != nil {
+            if lastCode != code {
+                currentTask?.cancel()
+            } else {
+                return
+            }
+        } else {
+            if lastCode == code {
+                return
+            }
+        }
+        
+        lastCode = code
         guard let urlRequest = authTokenRequest(code: code) else {
             fatalError("Bad auth token request")
         }
@@ -35,10 +52,14 @@ final class OAuth2Service {
                 let authToken = object.accessToken
                 self.authToken = authToken
                 completion(.success(authToken))
+                self.currentTask = nil
             case .failure(let error):
                 completion(.failure(error))
+                self.lastCode = nil
+                self.currentTask = nil
             }
         }
+        currentTask = task
         task.resume()
     }
     
