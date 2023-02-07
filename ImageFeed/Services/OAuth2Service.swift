@@ -27,7 +27,7 @@ final class OAuth2Service {
     private init() {}
     
     func fetchAuthToken(by code: String, completion: @escaping  (Result<String, Error>) -> Void) {
-        assert(Thread.isMainThread)
+        assert(Thread.isMainThread, "Bad thread before fetch token!")
         if currentTask != nil {
             if lastCode != code {
                 currentTask?.cancel()
