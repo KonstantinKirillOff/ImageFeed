@@ -52,6 +52,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypBlack
         setConstraints()
+        getProfileData()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -94,6 +95,47 @@ final class ProfileViewController: UIViewController {
             userMessage.leadingAnchor.constraint(equalTo: userPickImage.leadingAnchor),
             userMessage.topAnchor.constraint(equalTo: userLogin.bottomAnchor, constant: 8)
         ])
+    }
+    
+    private func getProfileData() {
+        let profileService = ProfileService.shared
+        guard let authToken = OAuth2TokenStorage.shared.token else { return }
+        profileService.fetchProfile(authToken) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let profileResult):
+                if let profile = self.convertToProfile(from: profileResult) {
+                    self.userPickImage.image = profile.profileImage
+                    self.userName.text = profile.name
+                    self.userLogin.text = profile.loginName
+                    self.userMessage.text = profile.bio
+                }
+            case .failure(_): break
+                //TODO: show alert
+            }
+        
+        }
+    }
+    
+    private func convertToProfile(from profileResult: ProfileResult) -> Profile? {
+        var profile: Profile?
+        
+//        guard let urlString = profileResult.profileImage?.medium else { return nil }
+//        guard let urlImage = URL(string: urlString) else { return nil }
+//
+//        DispatchQueue.global().async {
+//            guard let imageData = try? Data(contentsOf: urlImage) else { return }
+//
+//            DispatchQueue.main.async {
+//               profile = Profile(username: profileResult.username,
+//                        firstName: profileResult.firstName,
+//                        lastName: profileResult.lastName,
+//                        bio: profileResult.bio,
+//                        profileImage: UIImage(data: imageData)!)
+//            }
+//        }
+        return profile
     }
     
     @objc private func exitButtonTapped() {

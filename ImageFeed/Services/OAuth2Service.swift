@@ -83,14 +83,6 @@ final class OAuth2Service {
 
 //MARK: requests methods
 extension OAuth2Service {
-    private func selfProfileRequest() -> URLRequest? {
-        URLRequest.makeHTTPRequest(path: "/me")
-    }
-    
-    private func profileImageRequest(username: String) -> URLRequest? {
-        URLRequest.makeHTTPRequest(path: "/users/\(username)")
-    }
-    
     private func photosRequest(page: Int, perPage: Int) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos?"
         + "page=\(page)"
