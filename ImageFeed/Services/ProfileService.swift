@@ -14,30 +14,40 @@ final class ProfileService {
     private init() {}
     
     func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
-        guard let authToken = OAuth2TokenStorage.shared.token else { return }
-        guard var urlRequest = selfProfileRequest() else { return }
-
-        urlRequest.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-        
-        let task = profileResultObject(for: urlRequest) { [weak self] result in
+        guard let urlRequestSelfProfile = selfProfileRequest() else { return }
+        let task = getObject(dataType: ProfileUserName.self, for: urlRequestSelfProfile) { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
-            case .success(var profileObject):
-                
-                let userName = profileObject.username
-                guard let urlRequest = self.profileImageRequest(username: userName) else { return }
-                
-                let task = self.profileResultObject(for: urlRequest) { result in
+            case .success(let profileUserName):
+                let userName = profileUserName.username
+                print(userName)
+                guard let urlRequestProfileData = self.profileImageRequest(username: userName) else { return }
+
+                let task = self.getObject(dataType: ProfileResult.self, for: urlRequestProfileData) { result in
                     switch result {
-                    case .success(let imageLinks):
-                        //profileObject.profileImage = imageLinks.profileImage
-                        completion(.success(profileObject))
+                    case .success(let profileResult):
+                        completion(.success(profileResult))
                     case .failure(let error):
                         completion(.failure(error))
                     }
                 }
                 task.resume()
-                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+    
+    func fetchImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let url = URL(string: urlString) else { return }
+        
+        let urlRequest = URLRequest(url: url)
+        let task = urlSession.date(for: urlRequest) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -45,14 +55,13 @@ final class ProfileService {
         task.resume()
     }
 
-    private func profileResultObject(for request: URLRequest, completion: @escaping (Result<ProfileResult, Error>) -> Void) -> URLSessionTask {
+    private func getObject<T: Decodable>(dataType: T.Type, for request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> URLSessionTask {
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         return urlSession.date(for: request) { result in
             switch result {
             case .success(let data):
                 do {
-                    let object = try decoder.decode(ProfileResult.self, from: data)
+                    let object = try decoder.decode(T.self, from: data)
                     completion(.success(object))
                 } catch let error {
                     completion(.failure(error))
