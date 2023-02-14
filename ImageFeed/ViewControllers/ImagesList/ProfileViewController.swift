@@ -9,7 +9,6 @@ import UIKit
 import ProgressHUD
 
 final class ProfileViewController: UIViewController {
-    
     private let profileService = ProfileService.shared
     
     private lazy var userPickImage: UIImageView = {
@@ -55,7 +54,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypBlack
         setConstraints()
-        getProfileData()
+        updateProfileDetails(profile: profileService.profile!)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -64,6 +63,14 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         userPickImage.layer.cornerRadius = userPickImage.bounds.width / 2
+        userPickImage.clipsToBounds = true
+    }
+    
+    private func updateProfileDetails(profile: Profile) {
+        userPickImage.image = profile.profileImage
+        userName.text = profile.name
+        userLogin.text = profile.loginName
+        userMessage.text = profile.bio
     }
 
     private func configLabel(text: String) -> UILabel {
@@ -102,50 +109,6 @@ final class ProfileViewController: UIViewController {
             userMessage.leadingAnchor.constraint(equalTo: userPickImage.leadingAnchor),
             userMessage.topAnchor.constraint(equalTo: userLogin.bottomAnchor, constant: 8)
         ])
-    }
-    
-    private func getProfileData() {
-        ProgressHUD.show()
-        guard let authToken = OAuth2TokenStorage.shared.token else { return }
-        profileService.fetchProfile(authToken) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let profileResult):
-                if let profile = self.convertToProfile(from: profileResult) {
-                    self.userName.text = profile.name
-                    self.userLogin.text = profile.loginName
-                    self.userMessage.text = profile.bio
-                }
-                self.getImageProfile(profileResult: profileResult)
-            case .failure(_): break
-                //TODO: show alert
-            }
-        }
-    }
-    
-    private func convertToProfile(from profileResult: ProfileResult) -> Profile? {
-        return Profile(username: profileResult.userName,
-                       firstName: profileResult.firstName,
-                       lastName: profileResult.lastName,
-                       bio: profileResult.bio ?? "",
-                       profileImage: UIImage())
-    }
-    
-    private func getImageProfile(profileResult: ProfileResult) {
-        if let imageURL = profileResult.profileImage?.medium {
-            profileService.fetchImage(urlString: imageURL) { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let imageData):
-                    self.userPickImage.image = UIImage(data: imageData) ?? UIImage()
-                    ProgressHUD.dismiss()
-                case .failure(_): break
-                    //TODO: alert
-                }
-            }
-        }
     }
     
     @objc private func exitButtonTapped() {

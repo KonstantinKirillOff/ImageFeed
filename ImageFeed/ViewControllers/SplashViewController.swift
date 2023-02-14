@@ -9,13 +9,16 @@ import UIKit
 import ProgressHUD
 
 class SplashViewController: UIViewController {
+    private let profileService = ProfileService.shared
+    
     private let showGalleryFlowIdentifier = "showGalleryFlow"
     private let showAuthFlowIdentifier = "showAuthFlow"
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let _ = OAuth2TokenStorage.shared.token  {
+        if let token = OAuth2TokenStorage.shared.token  {
+            fetchProfile(for: token)
             switchToTapBarController()
         } else {
             performSegue(withIdentifier: showAuthFlowIdentifier, sender: nil)
@@ -48,6 +51,10 @@ class SplashViewController: UIViewController {
         let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
     }
+    
+    private func fetchProfile(for authToken: String) {
+        profileService.getProfileData(for: authToken)
+    }
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
@@ -57,12 +64,14 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             OAuth2Service.shared.fetchAuthToken(by: code) { result in
                 switch result {
-                case .success(_):
+                case .success(let token):
+                    self.fetchProfile(for: token)
                     self.switchToTapBarController()
                     UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
                     //TODO: show alert
                     print(error.localizedDescription)
+                    UIBlockingProgressHUD.dismiss()
                 }
             }
         }

@@ -5,15 +5,44 @@
 //  Created by Konstantin Kirillov on 11.02.2023.
 //
 
-import Foundation
+import UIKit
 
 final class ProfileService {
     static let shared = ProfileService()
     private let urlSession = URLSession.shared
+    private(set) var profile: Profile?
     
     private init() {}
     
-    func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
+    func getProfileData(for authToken: String) {
+        fetchProfile(authToken) { [weak self] result in
+            guard let self = self else { return }
+    
+            switch result {
+            case .success(let profileResult):
+                guard let imageURL = profileResult.profileImage?.medium else {
+                    let newProfile = self.convertToProfile(from: profileResult)
+                    self.profile = newProfile
+                    return
+                }
+                self.fetchImage(urlString: imageURL) { result in
+                    switch result {
+                    case .success(let imageData):
+                        if let uiImage = UIImage(data: imageData) {
+                            let newProfile = self.convertToProfile(from: profileResult, image: uiImage)
+                            self.profile = newProfile
+                        }
+                    case .failure(_): break
+                        //TODO: alert
+                    }
+                }
+            case .failure(_): break
+                //TODO: show alert
+            }
+        }
+    }
+    
+    private func fetchProfile(_ token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         guard let urlRequestSelfProfile = selfProfileRequest() else { return }
         let task = getObject(dataType: ProfileUserName.self, for: urlRequestSelfProfile) { [weak self] result in
             guard let self = self else { return }
@@ -40,7 +69,7 @@ final class ProfileService {
         task.resume()
     }
     
-    func fetchImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    private func fetchImage(urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: urlString) else { return }
         
         let urlRequest = URLRequest(url: url)
@@ -70,6 +99,14 @@ final class ProfileService {
                 completion(.failure(error))
             }
         }
+    }
+    
+    private func convertToProfile(from profileResult: ProfileResult, image: UIImage = UIImage()) -> Profile? {
+        return Profile(username: profileResult.userName,
+                       firstName: profileResult.firstName,
+                       lastName: profileResult.lastName,
+                       bio: profileResult.bio ?? "",
+                       profileImage: image)
     }
 }
 
