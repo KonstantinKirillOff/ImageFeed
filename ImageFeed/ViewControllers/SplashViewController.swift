@@ -10,6 +10,7 @@ import ProgressHUD
 
 class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
+	private let profileImageService = ProfileImageService.shared
     
     private let showGalleryFlowIdentifier = "showGalleryFlow"
     private let showAuthFlowIdentifier = "showAuthFlow"
@@ -52,9 +53,27 @@ class SplashViewController: UIViewController {
         window.rootViewController = tabBarController
     }
     
-    private func fetchProfile(for authToken: String) {
-        profileService.getProfileData(for: authToken)
-    }
+	private func fetchProfile(for authToken: String) {
+		profileService.fetchProfile(authToken) { [weak self] result in
+			guard let self = self else { return }
+			
+			switch result {
+			case .success(let profileResult):
+				self.switchToTapBarController()
+				UIBlockingProgressHUD.dismiss()
+				self.profileImageService.fetchProfileImageURL(profileResult.userName) { result in
+					switch result {
+					case .success(_): break
+					case .failure(_): break
+					}
+				}
+			case .failure(_):
+				//TODO: show alert
+				UIBlockingProgressHUD.dismiss()
+			}
+		}
+	}
+	
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
@@ -66,8 +85,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(let token):
                     self.fetchProfile(for: token)
-                    self.switchToTapBarController()
-                    UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
                     //TODO: show alert
                     print(error.localizedDescription)

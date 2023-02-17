@@ -23,3 +23,7 @@ struct Constants {
     //MARK: Storage constants
     static let bearerToken = "bearerToken"
 }
+
+struct NotificationConstants {
+	static let profileImageProviderDidChange = "ProfileImageProviderDidChange"
+}
