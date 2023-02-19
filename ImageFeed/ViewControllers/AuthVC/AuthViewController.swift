@@ -27,7 +27,10 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWith code: String) {
-        delegate.authViewController(self, didAuthenticateWithCode: code)
+		vc.dismiss(animated: true) { [weak self] in
+			guard let self = self else { return }
+			self.delegate.authViewController(self, didAuthenticateWithCode: code)
+		}
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

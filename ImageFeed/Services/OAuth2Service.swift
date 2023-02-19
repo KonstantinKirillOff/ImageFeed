@@ -9,8 +9,8 @@ import Foundation
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private let urlSession = URLSession.shared
     private let tokenStorage = OAuth2TokenStorage.shared
+	private let networkClient = NetworkClient.shared
     
     private var currentTask: URLSessionTask?
     private var lastCode: String?
@@ -45,7 +45,7 @@ final class OAuth2Service {
             fatalError("Bad auth token request")
         }
         
-        let task = object(for: urlRequest) { [weak self] result in
+		let task = networkClient.getObject(dataType: OAuthTokenResponseBody.self, for: urlRequest) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let object):
@@ -61,23 +61,6 @@ final class OAuth2Service {
         }
         currentTask = task
         task.resume()
-    }
-    
-    private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.date(for: request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let object = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(object))
-                } catch let error {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
     }
 }
 

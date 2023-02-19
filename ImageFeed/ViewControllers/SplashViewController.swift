@@ -14,16 +14,24 @@ class SplashViewController: UIViewController {
     
     private let showGalleryFlowIdentifier = "showGalleryFlow"
     private let showAuthFlowIdentifier = "showAuthFlow"
+	
+	private var authCode: String?
+	private var alertPresenter: IAlertPresenterProtocol!
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		alertPresenter = AlertPresenter(delegate: self)
+	}
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let token = OAuth2TokenStorage.shared.token  {
-            fetchProfile(for: token)
-            switchToTapBarController()
-        } else {
-            performSegue(withIdentifier: showAuthFlowIdentifier, sender: nil)
-        }
+		if let token = OAuth2TokenStorage.shared.token  {
+			fetchProfile(for: token)
+			switchToTapBarController()
+		} else if authCode == nil {
+			performSegue(withIdentifier: showAuthFlowIdentifier, sender: nil)
+		}
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,28 +75,41 @@ class SplashViewController: UIViewController {
 					case .failure(_): break
 					}
 				}
-			case .failure(_):
-				//TODO: show alert
+			case .failure(let error):
+				self.alertPresenter.preparingDataAndDisplay(alertText: "Не удалось войти в систему. \(error.localizedDescription)") {
+					self.performSegue(withIdentifier: self.showAuthFlowIdentifier, sender: nil)
+					self.authCode = nil
+				}
 				UIBlockingProgressHUD.dismiss()
 			}
 		}
 	}
-	
+}
+
+extension SplashViewController: IAlertPresenterDelegate {
+	func showAlert(alert: UIAlertController) {
+		DispatchQueue.main.async {
+			self.present(alert, animated: true, completion: nil)
+		}
+	}
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
-        vc.dismiss(animated: true) { [weak self] in
+		authCode = code
+		vc.dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             OAuth2Service.shared.fetchAuthToken(by: code) { result in
                 switch result {
                 case .success(let token):
                     self.fetchProfile(for: token)
                 case .failure(let error):
-                    //TODO: show alert
-                    print(error.localizedDescription)
-                    UIBlockingProgressHUD.dismiss()
+					self.alertPresenter.preparingDataAndDisplay(alertText: "Не удалось войти в систему. \(error.localizedDescription)") {
+						self.performSegue(withIdentifier: self.showAuthFlowIdentifier, sender: nil)
+						self.authCode = nil
+					}
+					UIBlockingProgressHUD.dismiss()
                 }
             }
         }
