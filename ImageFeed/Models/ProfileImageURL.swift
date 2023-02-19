@@ -17,4 +17,5 @@ struct ImageURL: Decodable {
 
 struct ProfileImageURL: Decodable {
 	let small: String
+	let medium: String
 }

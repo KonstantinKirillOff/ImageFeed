@@ -24,7 +24,7 @@ final class ProfileImageService {
 			
 			switch result {
 			case .success(let profileResult):
-				let urlImage = profileResult.profileImage.small
+				let urlImage = profileResult.profileImage.medium
 				self.avatarURL = urlImage
 				completion(.success(urlImage))
 				

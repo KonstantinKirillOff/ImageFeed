@@ -28,7 +28,6 @@ class SplashViewController: UIViewController {
         
 		if let token = OAuth2TokenStorage.shared.token  {
 			fetchProfile(for: token)
-			switchToTapBarController()
 		} else if authCode == nil {
 			performSegue(withIdentifier: showAuthFlowIdentifier, sender: nil)
 		}

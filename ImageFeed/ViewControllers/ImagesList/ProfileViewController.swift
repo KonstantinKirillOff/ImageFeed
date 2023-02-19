@@ -7,6 +7,7 @@
 
 import UIKit
 import ProgressHUD
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
@@ -83,10 +84,12 @@ final class ProfileViewController: UIViewController {
     
 	private func updateAvatar() {
 		guard let profileImageURL = ProfileImageService.shared.avatarURL,
-			  let _ = URL(string: profileImageURL)
+			  let imageURL = URL(string: profileImageURL)
 		else { return }
 		
-		//TODO: Update avatar via KingFisher
+		userPickImage.kf.indicatorType = .activity
+		userPickImage.kf.setImage(with: imageURL,
+								  placeholder: UIImage(systemName: "person.crop.circle"))
 	}
 	
     private func updateProfileDetails(profile: Profile) {
