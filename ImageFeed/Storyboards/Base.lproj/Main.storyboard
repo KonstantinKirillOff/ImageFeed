@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Tab Bar View Controller-->
         <scene sceneID="dDi-kk-Fty">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="8dd-SX-SqU" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="8dd-SX-SqU" customClass="TabBarViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yez-qn-ghb"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oV5-om-RUx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -24,18 +24,17 @@
                         </tabBarAppearance>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="fKz-7P-Wfc"/>
-                        <segue destination="cgI-LH-qaA" kind="relationship" relationship="viewControllers" id="jZc-YD-2JZ"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="ldb-we-VwM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zea-X0-kPl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-186" y="-284"/>
+            <point key="canvasLocation" x="-42" y="89"/>
         </scene>
         <!--Image list-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Image list" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImagesListViewController" title="Image list" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -308,21 +307,6 @@
             </objects>
             <point key="canvasLocation" x="1586" y="-1303"/>
         </scene>
-        <!--Profile-->
-        <scene sceneID="o9Q-2V-c2v">
-            <objects>
-                <viewController title="Profile" id="cgI-LH-qaA" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="PBI-hR-ODe">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="QG0-0E-7b0"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="" image="Profile" id="qXI-pE-UVs"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Ui-c4-vwh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="842" y="-585"/>
-        </scene>
         <!--Splash View Controller-->
         <scene sceneID="k62-4b-nNt">
             <objects>
@@ -374,7 +358,6 @@
         <image name="0" width="200" height="132"/>
         <image name="Backward" width="9" height="15.666666984558105"/>
         <image name="BackwardBlack" width="9" height="15.666666984558105"/>
-        <image name="Profile" width="24" height="24"/>
         <image name="Sharing" width="50" height="50"/>
         <image name="YPicon" width="75" height="78"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>

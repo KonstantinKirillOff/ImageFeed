@@ -12,7 +12,6 @@ struct Profile {
     let firstName: String
     let lastName: String
     let bio: String
-    //var profileImage: UIImage
     
     var name: String {
         "\(firstName) \(lastName)"

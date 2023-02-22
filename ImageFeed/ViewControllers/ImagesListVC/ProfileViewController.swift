@@ -12,6 +12,7 @@ import Kingfisher
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
 	private var profileImageServiceObserver: NSObjectProtocol?
+	
     
     private lazy var userPickImage: UIImageView = {
         if let userImage = UIImage(named: "UserPick") {

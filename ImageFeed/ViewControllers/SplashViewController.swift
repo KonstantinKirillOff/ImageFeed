@@ -87,9 +87,7 @@ class SplashViewController: UIViewController {
 
 extension SplashViewController: IAlertPresenterDelegate {
 	func showAlert(alert: UIAlertController) {
-		DispatchQueue.main.async {
-			self.present(alert, animated: true, completion: nil)
-		}
+		self.present(alert, animated: true, completion: nil)
 	}
 }
 
