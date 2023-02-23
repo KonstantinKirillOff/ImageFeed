@@ -18,9 +18,21 @@ class SplashViewController: UIViewController {
 	private var authCode: String?
 	private var alertPresenter: IAlertPresenterProtocol!
 	
+	private lazy var logoImage: UIImageView = {
+		if let userImage = UIImage(named: "YPicon") {
+			let imageElement = UIImageView(image: userImage)
+			imageElement.translatesAutoresizingMaskIntoConstraints = false
+			view.addSubview(imageElement)
+			return imageElement
+		}
+		return UIImageView()
+	}()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		alertPresenter = AlertPresenter(delegate: self)
+		view.backgroundColor = UIColor.ypBlack
+		setConstraints()
 	}
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,7 +41,11 @@ class SplashViewController: UIViewController {
 		if let token = OAuth2TokenStorage.shared.token  {
 			fetchProfile(for: token)
 		} else if authCode == nil {
-			performSegue(withIdentifier: showAuthFlowIdentifier, sender: nil)
+			let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(identifier: "authVC")
+			guard let authVC = authViewController as? AuthViewController else { return }
+			authVC.delegate = self
+			authVC.modalPresentationStyle = .fullScreen
+			present(authVC , animated: true)
 		}
     }
     
@@ -40,16 +56,6 @@ class SplashViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showAuthFlowIdentifier {
-            guard let navigationController = segue.destination as? UINavigationController else { return }
-            guard let authVC = navigationController.topViewController as? AuthViewController else { return }
-            authVC.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
     }
     
     private func switchToTapBarController() {
@@ -83,6 +89,13 @@ class SplashViewController: UIViewController {
 			}
 		}
 	}
+	
+	private func setConstraints() {
+		NSLayoutConstraint.activate([
+			logoImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+			logoImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+		])
+	}
 }
 
 extension SplashViewController: IAlertPresenterDelegate {
@@ -91,7 +104,7 @@ extension SplashViewController: IAlertPresenterDelegate {
 	}
 }
 
-extension SplashViewController: AuthViewControllerDelegate {
+extension SplashViewController: IAuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
 		authCode = code

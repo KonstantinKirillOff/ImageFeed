@@ -8,11 +8,6 @@
 import UIKit
 import WebKit
 
-protocol WebViewViewControllerDelegate: AnyObject {
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWith code: String)
-    func webViewViewControllerDidCancel(_ vc: WebViewViewController)
-}
-
 fileprivate struct AuthConstants {
     static let responseType = "code"
     static let authPath = "/oauth/authorize"
@@ -23,7 +18,7 @@ final class WebViewViewController: UIViewController {
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
     
-    weak var delegate: WebViewViewControllerDelegate!
+    weak var delegate: IWebViewViewControllerDelegate!
 	private var estimatedProgressObservation: NSKeyValueObservation?
     
     override func viewDidLoad() {
