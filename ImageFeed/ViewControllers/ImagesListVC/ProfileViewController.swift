@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import ProgressHUD
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    private let profileService = ProfileService.shared
+	private var profileImageServiceObserver: NSObjectProtocol?
+	
     
     private lazy var userPickImage: UIImageView = {
         if let userImage = UIImage(named: "UserPick") {
@@ -48,14 +53,50 @@ final class ProfileViewController: UIViewController {
         return label
     }()
 
+	override var preferredStatusBarStyle: UIStatusBarStyle {
+		.lightContent
+	}
+	
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.ypBlack
         setConstraints()
+		
+		profileImageServiceObserver = NotificationCenter.default
+			.addObserver(forName: ProfileImageService.DidChangeNotification,
+						 object: nil,
+						 queue: .main,
+						 using: { [weak self] _ in
+				
+				guard let self = self else { return }
+				self.updateAvatar()
+			})
+		if let profile = profileService.profile {
+			updateProfileDetails(profile: profile)
+		}
+		updateAvatar()
     }
+
+    override func viewDidLayoutSubviews() {
+        userPickImage.layer.cornerRadius = userPickImage.bounds.width / 2
+        userPickImage.clipsToBounds = true
+    }
+
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
+	private func updateAvatar() {
+		guard let profileImageURL = ProfileImageService.shared.avatarURL,
+			  let imageURL = URL(string: profileImageURL)
+		else { return }
+		
+		userPickImage.kf.indicatorType = .activity
+		userPickImage.kf.setImage(with: imageURL,
+								  placeholder: UIImage(systemName: "person.crop.circle"))
+	}
+	
+    private func updateProfileDetails(profile: Profile) {
+        userName.text = profile.name
+        userLogin.text = profile.loginName
+        userMessage.text = profile.bio
     }
 
     private func configLabel(text: String) -> UILabel {
