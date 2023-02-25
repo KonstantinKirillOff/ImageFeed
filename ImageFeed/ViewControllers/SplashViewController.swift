@@ -72,14 +72,9 @@ class SplashViewController: UIViewController {
 			
 			switch result {
 			case .success(let profileResult):
-				self.switchToTapBarController()
 				UIBlockingProgressHUD.dismiss()
-				self.profileImageService.fetchProfileImageURL(profileResult.userName) { result in
-					switch result {
-					case .success(_): break
-					case .failure(_): break
-					}
-				}
+				self.profileImageService.fetchProfileImageURL(profileResult.userName) { _ in }
+				self.switchToTapBarController()
 			case .failure(let error):
 				self.alertPresenter.preparingDataAndDisplay(alertText: "Не удалось войти в систему. \(error.localizedDescription)") {
 					self.performSegue(withIdentifier: self.showAuthFlowIdentifier, sender: nil)
@@ -105,23 +100,23 @@ extension SplashViewController: IAlertPresenterDelegate {
 }
 
 extension SplashViewController: IAuthViewControllerDelegate {
-    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
+	func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+		UIBlockingProgressHUD.show()
 		authCode = code
 		vc.dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
-            OAuth2Service.shared.fetchAuthToken(by: code) { result in
-                switch result {
-                case .success(let token):
-                    self.fetchProfile(for: token)
-                case .failure(let error):
+			guard let self = self else { return }
+			OAuth2Service.shared.fetchAuthToken(by: code) { result in
+				switch result {
+				case .success(let token):
+					self.fetchProfile(for: token)
+				case .failure(let error):
 					self.alertPresenter.preparingDataAndDisplay(alertText: "Не удалось войти в систему. \(error.localizedDescription)") {
 						self.performSegue(withIdentifier: self.showAuthFlowIdentifier, sender: nil)
 						self.authCode = nil
 					}
 					UIBlockingProgressHUD.dismiss()
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 }

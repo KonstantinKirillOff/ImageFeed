@@ -52,12 +52,11 @@ final class OAuth2Service {
                 let authToken = object.accessToken
                 self.authToken = authToken
                 completion(.success(authToken))
-                self.currentTask = nil
             case .failure(let error):
                 completion(.failure(error))
                 self.lastCode = nil
-                self.currentTask = nil
             }
+			self.currentTask = nil
         }
         currentTask = task
         task.resume()
