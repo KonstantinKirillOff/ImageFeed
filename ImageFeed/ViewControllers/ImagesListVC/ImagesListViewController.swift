@@ -71,5 +71,13 @@ extension ImagesListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
+	
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		//TODO: fetch images from ImageListService
+		
+//		if indexPath.row + 1 == photos.count {
+//			
+//		}
+	}
 }
 
