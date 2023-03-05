@@ -44,6 +44,7 @@ final class ImageListService {
 				print(error.localizedDescription)
 			}
 			self.currentTask = nil
+			self.lastLoadPage = nextPage
 		}
 		currentTask = task
 		task.resume()

@@ -33,6 +33,7 @@ class SplashViewController: UIViewController {
 		alertPresenter = AlertPresenter(delegate: self)
 		view.backgroundColor = UIColor.ypBlack
 		setConstraints()
+		//OAuth2TokenStorage.shared.removeToken()
 	}
     
     override func viewDidAppear(_ animated: Bool) {

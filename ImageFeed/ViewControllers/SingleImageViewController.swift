@@ -6,23 +6,34 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
     
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+//    var image: UIImage! {
+//        didSet {
+//            guard isViewLoaded else { return }
+//            imageView.image = image
+//            rescaleAndCenterImageInScrollView(image: image)
+//        }
+//    }
+	
+	var photo: Photo!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image)
+		
+		if let imageURL = URL(string: photo.largeImageURL) {
+			imageView.kf.indicatorType = .activity
+			imageView.kf.setImage(with: imageURL,
+								  placeholder: UIImage(named: "StubCard"))
+		} else {
+			imageView.image = UIImage(named: "StubCard")
+		}
+        
+		rescaleAndCenterImageInScrollView(image: imageView.image!)
         
         scrollView.delegate = self
         scrollView.maximumZoomScale = 1.25
@@ -34,7 +45,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func sharedButtonTapped() {
-        if let image = image {
+        if let image = imageView.image {
             let imageShare = [image]
             let activityVC = UIActivityViewController(activityItems: imageShare, applicationActivities: nil)
             self.present(activityVC, animated: true)
