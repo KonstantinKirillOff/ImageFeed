@@ -21,4 +21,19 @@ struct AlertPresenter: IAlertPresenterProtocol {
 		alert.addAction(alertAction)
 		delegate?.showAlert(alert: alert)
 	}
+	
+	func preparingAlertWithRepeat(alertText: String, handler: @escaping () -> Void ) {
+		let alert = UIAlertController(title: "Что-то пошло не так",
+									  message: alertText,
+									  preferredStyle: .alert)
+		let alertAction = UIAlertAction(title: "Не надо", style: .default)
+		let alertRepeatAction = UIAlertAction(title: "Повторить", style: .default) { _ in
+			handler()
+		}
+		
+		alert.addAction(alertAction)
+		alert.addAction(alertRepeatAction)
+		
+		delegate?.showAlert(alert: alert)
+	}
 }

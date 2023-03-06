@@ -11,33 +11,19 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var scrollView: UIScrollView!
-    
-//    var image: UIImage! {
-//        didSet {
-//            guard isViewLoaded else { return }
-//            imageView.image = image
-//            rescaleAndCenterImageInScrollView(image: image)
-//        }
-//    }
 	
+	private var alertPresenter: IAlertPresenterProtocol!
 	var photo: Photo!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		if let imageURL = URL(string: photo.largeImageURL) {
-			imageView.kf.indicatorType = .activity
-			imageView.kf.setImage(with: imageURL,
-								  placeholder: UIImage(named: "StubCard"))
-		} else {
-			imageView.image = UIImage(named: "StubCard")
-		}
-        
-		rescaleAndCenterImageInScrollView(image: imageView.image!)
+		alertPresenter = AlertPresenter(delegate: self)
         
         scrollView.delegate = self
         scrollView.maximumZoomScale = 1.25
         scrollView.minimumZoomScale = 0.1
+		
+		setImage()
     }
     
     @IBAction private func backwardButtonTapped() {
@@ -51,7 +37,39 @@ final class SingleImageViewController: UIViewController {
             self.present(activityVC, animated: true)
         }
     }
+	
+	private func setImage() {
+		UIBlockingProgressHUD.show()
+		if let imageURL = URL(string: photo.largeImageURL) {
+			imageView.kf.setImage(with: imageURL,
+								  placeholder: UIImage(named: "StubCard")) { [weak self] result in
+				UIBlockingProgressHUD.dismiss()
+				guard let self = self else { return }
+				switch result {
+				case .success(let imageResult):
+					self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+				case .failure(_):
+					self.showError()
+				}
+			}
+		} else {
+			imageView.image = UIImage(named: "StubCard")
+		}
+	}
+	
+	private func showError() {
+		alertPresenter.preparingAlertWithRepeat(alertText: "Попробовать еще раз?") { [weak self] in
+			guard let self = self else { return }
+			self.setImage()
+		}
+	}
     
+}
+
+extension SingleImageViewController: IAlertPresenterDelegate {
+	func showAlert(alert: UIAlertController) {
+		self.present(alert, animated: true)
+	}
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {

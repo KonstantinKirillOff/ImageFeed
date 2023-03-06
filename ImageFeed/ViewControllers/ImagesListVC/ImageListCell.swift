@@ -9,11 +9,17 @@ import Foundation
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+	func imageListCellDidTapLike(_ cell: ImageListCell)
+}
+
 final class ImageListCell: UITableViewCell {
 	@IBOutlet weak private var mainImageView: UIImageView!
 	@IBOutlet weak private var heartButton: UIButton!
 	@IBOutlet weak private var imageDateLabel: UILabel!
 	@IBOutlet weak private var gradientLayer: UIView!
+	
+	weak var delegate: ImagesListCellDelegate?
 	
 	private lazy var dateFormatter: DateFormatter = {
 		let dateFormatter = DateFormatter()
@@ -28,8 +34,11 @@ final class ImageListCell: UITableViewCell {
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		
 		mainImageView.kf.cancelDownloadTask()
+	}
+	
+	@IBAction func heartButtonPressed() {
+		delegate?.imageListCellDidTapLike(self)
 	}
 	
 	func configCell(photo: Photo) {
@@ -56,35 +65,14 @@ final class ImageListCell: UITableViewCell {
 			imageDateLabel.text =  dateFormatter.string(from: createData)
 		}
 		
-		if photo.isLiked {
+		setIsLiked(isLike: photo.isLiked)
+	}
+	
+	func setIsLiked(isLike: Bool) {
+		if isLike {
 			heartButton.setImage(UIImage(named: "Active") , for: .normal)
 		} else {
 			heartButton.setImage(UIImage(named: "No Active") , for: .normal)
 		}
 	}
 }
-
-//old version
-//  func configCell(for cell: ImageListCell, indexPath: IndexPath, photo: String) {
-//        if let image = UIImage(named: photo) {
-//            cell.mainImageView.image = image
-//        } else {
-//            cell.mainImageView.image = UIImage(systemName: "photo")
-//        }
-//
-//        if indexPath.row.isMultiple(of: 2) {
-//            cell.heartButton.setImage(UIImage(named: "Active") , for: .normal)
-//        } else {
-//            cell.heartButton.setImage(UIImage(named: "No Active") , for: .normal)
-//        }
-//
-//        mainImageView.layer.cornerRadius = 16
-//        mainImageView.layer.masksToBounds = true
-//
-//        gradientLayer.layer.cornerRadius = 16
-//        gradientLayer.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-//        gradientLayer.layer.masksToBounds = true
-//        gradientLayer.alpha = 0.2
-//
-//        imageDateLabel.textColor = UIColor(named: "YP White")
-//        imageDateLabel.text = dateFormatter.string(from: Date())

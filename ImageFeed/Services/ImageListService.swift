@@ -70,6 +70,35 @@ final class ImageListService {
 					 isLiked: photoResult.isLiked)
 	}
 	
+	func changeLike(photoID: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+		guard let urlRequest = isLike ? likeRequest(photoID: photoID) : unlikeRequest(photoID: photoID) else {
+			fatalError("Bad photos request")
+		}
+		
+		let fulfillCompletion: (Result<Void, Error>) -> Void = { result in
+			DispatchQueue.main.async {
+				completion(result)
+			}
+		}
+		
+		let task = URLSession.shared.dataTask(with: urlRequest) { _ , response, error in
+			if let response = response,
+			   let statusCode = (response as? HTTPURLResponse)?.statusCode {
+				
+				if 200..<300 ~= statusCode {
+					fulfillCompletion(.success(()))
+				} else {
+					fulfillCompletion(.failure(NetworkError.httpStatusCode(statusCode)))
+				}
+			} else if let error = error {
+				fulfillCompletion(.failure(NetworkError.urlRequestError(error)))
+			} else {
+				fulfillCompletion(.failure(NetworkError.urlSessionError))
+			}
+		}
+		task.resume()
+	}
+	
 	private init() {}
 }
 

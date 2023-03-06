@@ -16,6 +16,8 @@ final class ImagesListViewController: UIViewController {
 	private var imageListServiceObserver: NSObjectProtocol?
 	private let imageListService = ImageListService.shared
 	
+	private var alertPresenter: IAlertPresenterProtocol!
+	
 	private lazy var dateFormatter: DateFormatter = {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateStyle = .long
@@ -27,6 +29,7 @@ final class ImagesListViewController: UIViewController {
 		super.viewDidLoad()
 		tableView.dataSource = self
 		tableView.delegate = self
+		alertPresenter = AlertPresenter(delegate: self)
 		
 		tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
 		
@@ -77,6 +80,54 @@ final class ImagesListViewController: UIViewController {
 	private func reloadRowForTable(indexPath: IndexPath) {
 		tableView.reloadRows(at: [indexPath], with: .automatic)
 	}
+	
+	private func replacePhotoWithNewValue(photo: Photo) {
+		if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
+			let newPhoto = Photo(id: photo.id,
+								 size: photo.size,
+								 createAt: photo.createAt,
+								 welcomeDescription: photo.welcomeDescription,
+								 thumbImageURL: photo.thumbImageURL,
+								 largeImageURL: photo.largeImageURL,
+								 isLiked: !photo.isLiked)
+			photos.remove(at: index)
+			photos.insert(newPhoto, at: index)
+		}
+	}
+}
+
+extension ImagesListViewController: IAlertPresenterDelegate {
+	func showAlert(alert: UIAlertController) {
+		self.present(alert, animated: true, completion: nil)
+	}
+	
+	
+}
+
+extension ImagesListViewController: ImagesListCellDelegate {
+	func imageListCellDidTapLike(_ cell: ImageListCell) {
+		guard let indexPath = tableView.indexPath(for: cell) else { return }
+		let photo = photos[indexPath.row]
+		
+		UIBlockingProgressHUD.show()
+		imageListService.changeLike(photoID: photo.id,
+									isLike: !photo.isLiked) { [weak self] result in
+			guard let self = self else { return }
+			
+			switch result {
+			case .success(_):
+				self.replacePhotoWithNewValue(photo: photo)
+				cell.setIsLiked(isLike: self.photos[indexPath.row].isLiked)
+				self.reloadRowForTable(indexPath: indexPath)
+				UIBlockingProgressHUD.dismiss()
+			case .failure(let error):
+				self.alertPresenter.preparingDataAndDisplay(alertText: "Не удалось установить like. \(error.localizedDescription)") {
+					UIBlockingProgressHUD.dismiss()
+				}
+			}
+		}
+		reloadRowForTable(indexPath: indexPath)
+	}
 }
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -97,6 +148,7 @@ extension ImagesListViewController: UITableViewDataSource {
 			guard let self = self else { return }
 			self.reloadRowForTable(indexPath: indexPath)
 		}
+		imageListCell.delegate = self
 		imageListCell.configCell(photo: photo)
         
         return imageListCell
