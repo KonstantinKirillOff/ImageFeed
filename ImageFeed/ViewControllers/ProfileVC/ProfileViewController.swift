@@ -8,6 +8,7 @@
 import UIKit
 import ProgressHUD
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
 	private let profileService = ProfileService.shared
@@ -83,6 +84,16 @@ final class ProfileViewController: UIViewController {
 		userPickImage.clipsToBounds = true
 	}
 
+	@objc private func exitButtonTapped() {
+		cleanCookie()
+		cleanStorage()
+		
+		guard let window = UIApplication.shared.windows.first else {
+			fatalError("Invalid configuration")
+		}
+		let splashVC = SplashViewController()
+		window.rootViewController = splashVC
+	}
 	
 	private func updateAvatar() {
 		guard let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -138,8 +149,17 @@ final class ProfileViewController: UIViewController {
 		])
 	}
 	
-	@objc private func exitButtonTapped() {
-		
+	private func cleanCookie() {
+		HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+		WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+			records.forEach { record in
+				WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record]) { }
+			}
+		}
+	}
+	
+	private func cleanStorage() {
+		OAuth2TokenStorage.shared.removeToken()
 	}
 	
 }

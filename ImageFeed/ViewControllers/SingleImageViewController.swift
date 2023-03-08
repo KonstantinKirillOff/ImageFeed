@@ -41,8 +41,7 @@ final class SingleImageViewController: UIViewController {
 	private func setImage() {
 		UIBlockingProgressHUD.show()
 		if let imageURL = URL(string: photo.largeImageURL) {
-			imageView.kf.setImage(with: imageURL,
-								  placeholder: UIImage(named: "StubCard")) { [weak self] result in
+			imageView.kf.setImage(with: imageURL) { [weak self] result in
 				UIBlockingProgressHUD.dismiss()
 				guard let self = self else { return }
 				switch result {
