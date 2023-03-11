@@ -36,4 +36,16 @@ struct AlertPresenter: IAlertPresenterProtocol {
 		
 		delegate?.showAlert(alert: alert)
 	}
+	
+	func preparingAlertController(alertTitle: String, alertMessage: String, alertActions: [UIAlertAction]) {
+		let alert = UIAlertController(title: alertTitle,
+									  message: alertMessage,
+									  preferredStyle: .alert)
+		
+		alertActions.forEach { action in
+			alert.addAction(action)
+		}
+		
+		delegate?.showAlert(alert: alert)
+	}
 }

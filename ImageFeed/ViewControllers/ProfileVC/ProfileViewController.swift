@@ -12,8 +12,9 @@ import WebKit
 
 final class ProfileViewController: UIViewController {
 	private let profileService = ProfileService.shared
-	private var profileImageServiceObserver: NSObjectProtocol?
+	private var presenter: IAlertPresenterProtocol!
 	
+	private var profileImageServiceObserver: NSObjectProtocol?
 	
 	private lazy var userPickImage: UIImageView = {
 		if let userImage = UIImage(named: "UserPick") {
@@ -60,8 +61,8 @@ final class ProfileViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		presenter = AlertPresenter(delegate: self)
 		view.backgroundColor = UIColor.ypBlack
-		
 		setConstraints()
 		
 		profileImageServiceObserver = NotificationCenter.default
@@ -85,14 +86,16 @@ final class ProfileViewController: UIViewController {
 	}
 
 	@objc private func exitButtonTapped() {
-		cleanCookie()
-		cleanStorage()
-		
-		guard let window = UIApplication.shared.windows.first else {
-			fatalError("Invalid configuration")
+		let actionYes = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+			guard let self = self else { return }
+			self.logOutFromProfile()
 		}
-		let splashVC = SplashViewController()
-		window.rootViewController = splashVC
+		
+		let actionNo = UIAlertAction(title: "Нет", style: .default)
+		
+		presenter.preparingAlertController(alertTitle: "Пока, пока!",
+										   alertMessage: "Уверены, что хотите выйти?",
+										   alertActions: [actionYes, actionNo])
 	}
 	
 	private func updateAvatar() {
@@ -162,4 +165,21 @@ final class ProfileViewController: UIViewController {
 		OAuth2TokenStorage.shared.removeToken()
 	}
 	
+	private func logOutFromProfile() {
+		cleanCookie()
+		cleanStorage()
+		
+		guard let window = UIApplication.shared.windows.first else {
+			fatalError("Invalid configuration")
+		}
+		let splashVC = SplashViewController()
+		window.rootViewController = splashVC
+	}
+	
+}
+
+extension ProfileViewController: IAlertPresenterDelegate {
+	func showAlert(alert: UIAlertController) {
+		present(alert, animated: true)
+	}
 }
