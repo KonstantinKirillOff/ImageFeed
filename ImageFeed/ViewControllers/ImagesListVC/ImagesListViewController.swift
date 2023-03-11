@@ -90,8 +90,7 @@ final class ImagesListViewController: UIViewController {
 								 thumbImageURL: photo.thumbImageURL,
 								 largeImageURL: photo.largeImageURL,
 								 isLiked: !photo.isLiked)
-			photos.remove(at: index)
-			photos.insert(newPhoto, at: index)
+			photos[index] = newPhoto
 		}
 	}
 }
@@ -100,8 +99,6 @@ extension ImagesListViewController: IAlertPresenterDelegate {
 	func showAlert(alert: UIAlertController) {
 		self.present(alert, animated: true, completion: nil)
 	}
-	
-	
 }
 
 extension ImagesListViewController: ImagesListCellDelegate {

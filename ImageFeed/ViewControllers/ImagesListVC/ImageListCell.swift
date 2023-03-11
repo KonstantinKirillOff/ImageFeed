@@ -61,9 +61,7 @@ final class ImageListCell: UITableViewCell {
 		gradientLayer.alpha = 0.2
 		
 		imageDateLabel.textColor = UIColor(named: "YP White")
-		if let createData = photo.createAt {
-			imageDateLabel.text =  dateFormatter.string(from: createData)
-		}
+		imageDateLabel.text =  photo.createAt != nil ? dateFormatter.string(from: photo.createAt!) : ""
 		
 		setIsLiked(isLike: photo.isLiked)
 	}

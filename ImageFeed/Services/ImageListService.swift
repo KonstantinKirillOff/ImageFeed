@@ -16,10 +16,8 @@ final class ImageListService {
 	private var lastLoadPage: Int?
 	private var currentTask: URLSessionTask?
 	
-	lazy var dateFormatter: DateFormatter = {
-		let dateFormatter = DateFormatter()
-		dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-		dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+	lazy var dateFormatter: ISO8601DateFormatter = {
+		let dateFormatter = ISO8601DateFormatter()
 		return dateFormatter
 	}()
 	
@@ -63,7 +61,7 @@ final class ImageListService {
 	private func convertToPhotoViewModel(from photoResult: PhotoResult) -> Photo {
 		return Photo(id: photoResult.id,
 					 size: CGSize(width: Double(photoResult.width), height: Double(photoResult.height)),
-					 createAt: photoResult.createdAt != nil ? dateFormatter.date(from: photoResult.createdAt!) : Date(),
+					 createAt: photoResult.createdAt != nil ? dateFormatter.date(from: photoResult.createdAt!) : nil,
 					 welcomeDescription: photoResult.description ?? "",
 					 thumbImageURL: photoResult.urls.thumb,
 					 largeImageURL: photoResult.urls.full,
