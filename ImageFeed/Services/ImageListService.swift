@@ -104,8 +104,8 @@ final class ImageListService {
 extension ImageListService {
 	private func photosRequest(page: Int, perPage: Int) -> URLRequest? {
 		URLRequest.makeHTTPRequest(path: "/photos?"
-		+ "page=\(page)"
-		+ "&&per_page=\(perPage)")
+								   + "page=\(page)"
+								   + "&&per_page=\(perPage)")
 	}
 	
 	private func likeRequest(photoID: String) -> URLRequest? {

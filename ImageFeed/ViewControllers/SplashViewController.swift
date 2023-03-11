@@ -9,11 +9,11 @@ import UIKit
 import ProgressHUD
 
 class SplashViewController: UIViewController {
-    private let profileService = ProfileService.shared
+	private let profileService = ProfileService.shared
 	private let profileImageService = ProfileImageService.shared
-    
-    private let showGalleryFlowIdentifier = "showGalleryFlow"
-    private let showAuthFlowIdentifier = "showAuthFlow"
+	
+	private let showGalleryFlowIdentifier = "showGalleryFlow"
+	private let showAuthFlowIdentifier = "showAuthFlow"
 	
 	private var authCode: String?
 	private var alertPresenter: IAlertPresenterProtocol!
@@ -34,10 +34,10 @@ class SplashViewController: UIViewController {
 		view.backgroundColor = UIColor.ypBlack
 		setConstraints()
 	}
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
 		if let token = OAuth2TokenStorage.shared.token  {
 			fetchProfile(for: token)
 		} else if authCode == nil {
@@ -47,25 +47,25 @@ class SplashViewController: UIViewController {
 			authVC.modalPresentationStyle = .fullScreen
 			present(authVC , animated: true)
 		}
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    private func switchToTapBarController() {
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid configuration")
-        }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
-    }
-    
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		setNeedsStatusBarAppearanceUpdate()
+	}
+	
+	override var preferredStatusBarStyle: UIStatusBarStyle {
+		.lightContent
+	}
+	
+	private func switchToTapBarController() {
+		guard let window = UIApplication.shared.windows.first else {
+			fatalError("Invalid configuration")
+		}
+		let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
+		window.rootViewController = tabBarController
+	}
+	
 	private func fetchProfile(for authToken: String) {
 		profileService.fetchProfile(authToken) { [weak self] result in
 			guard let self = self else { return }

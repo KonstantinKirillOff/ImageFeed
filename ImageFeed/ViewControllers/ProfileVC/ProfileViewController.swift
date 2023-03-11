@@ -54,7 +54,7 @@ final class ProfileViewController: UIViewController {
 		label.font = .systemFont(ofSize: 13, weight: .regular)
 		return label
 	}()
-
+	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		.lightContent
 	}
@@ -79,12 +79,12 @@ final class ProfileViewController: UIViewController {
 		}
 		updateAvatar()
 	}
-
+	
 	override func viewDidLayoutSubviews() {
 		userPickImage.layer.cornerRadius = userPickImage.bounds.width / 2
 		userPickImage.clipsToBounds = true
 	}
-
+	
 	@objc private func exitButtonTapped() {
 		let actionYes = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
 			guard let self = self else { return }
@@ -113,7 +113,7 @@ final class ProfileViewController: UIViewController {
 		userLogin.text = profile.loginName
 		userMessage.text = profile.bio
 	}
-
+	
 	private func configLabel(text: String) -> UILabel {
 		let label = UILabel()
 		label.text = text
