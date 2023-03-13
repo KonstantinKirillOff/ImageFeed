@@ -37,7 +37,7 @@ final class ImageListCell: UITableViewCell {
 		mainImageView.kf.cancelDownloadTask()
 	}
 	
-	@IBAction func heartButtonPressed() {
+	@IBAction private func heartButtonPressed() {
 		delegate?.imageListCellDidTapLike(self)
 	}
 	

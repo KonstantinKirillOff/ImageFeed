@@ -8,7 +8,7 @@
 import UIKit
 import ProgressHUD
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
 	private let profileService = ProfileService.shared
 	private let profileImageService = ProfileImageService.shared
 	
@@ -60,7 +60,8 @@ class SplashViewController: UIViewController {
 	
 	private func switchToTapBarController() {
 		guard let window = UIApplication.shared.windows.first else {
-			fatalError("Invalid configuration")
+			assertionFailure("Invalid configuration")
+			return
 		}
 		let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBarViewController")
 		window.rootViewController = tabBarController

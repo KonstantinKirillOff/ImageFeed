@@ -24,7 +24,8 @@ final class WebViewViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		guard let urlRequest = authRequest() else {
-			fatalError("Bad auth request!")
+			assertionFailure("Bad auth request!")
+			return
 		}
 		webView.load(urlRequest)
 		webView.navigationDelegate = self

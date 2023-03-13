@@ -9,7 +9,7 @@ import Foundation
 
 final class ImageListService {
 	static let shared = ImageListService()
-	static let ImageListDidChangeNotification = Notification.Name(NotificationConstants.imageListDidChange)
+	static let imageListDidChangeNotification = Notification.Name(NotificationConstants.imageListDidChange)
 	
 	private let networkClient = NetworkClient.shared
 	private (set) var photos: [Photo] = []
@@ -29,7 +29,8 @@ final class ImageListService {
 		let nextPage  = lastLoadPage == nil ? 1 : lastLoadPage! + 1
 		
 		guard let urlRequest = photosRequest(page: nextPage, perPage: Constants.photosPerPage) else {
-			fatalError("Bad photos request")
+			assertionFailure("Bad photos request")
+			return
 		}
 		
 		let task = networkClient.getObject(dataType: [PhotoResult].self, for: urlRequest) { [weak self] result in
@@ -53,7 +54,7 @@ final class ImageListService {
 			let photoViewModel = convertToPhotoViewModel(from: photoResult)
 			photos.append(photoViewModel)
 		}
-		NotificationCenter.default.post(name: ImageListService.ImageListDidChangeNotification,
+		NotificationCenter.default.post(name: ImageListService.imageListDidChangeNotification,
 										object: self,
 										userInfo: ["Photos": self.photos])
 	}
@@ -70,7 +71,8 @@ final class ImageListService {
 	
 	func changeLike(photoID: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
 		guard let urlRequest = isLike ? likeRequest(photoID: photoID) : unlikeRequest(photoID: photoID) else {
-			fatalError("Bad photos request")
+			assertionFailure("Bad photos request")
+			return
 		}
 		
 		let fulfillCompletion: (Result<Void, Error>) -> Void = { result in

@@ -18,13 +18,6 @@ final class ImagesListViewController: UIViewController {
 	
 	private var alertPresenter: IAlertPresenterProtocol!
 	
-	private lazy var dateFormatter: DateFormatter = {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .long
-		dateFormatter.timeStyle = .none
-		return dateFormatter
-	}()
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		tableView.dataSource = self
@@ -37,7 +30,7 @@ final class ImagesListViewController: UIViewController {
 			imageListService.fetchPhotosNextPage()
 		}
 		imageListServiceObserver = NotificationCenter.default
-			.addObserver(forName: ImageListService.ImageListDidChangeNotification,
+			.addObserver(forName: ImageListService.imageListDidChangeNotification,
 						 object: nil,
 						 queue: .main,
 						 using: { [weak self] _ in
@@ -53,8 +46,9 @@ final class ImagesListViewController: UIViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == showSingleImageSegueIdentifier {
-			let singleImageVC = segue.destination as! SingleImageViewController
-			let indexPath = sender as! IndexPath
+			guard let singleImageVC = segue.destination as? SingleImageViewController,
+				  let indexPath = sender as? IndexPath else { return }
+			
 			let photo = photos[indexPath.row]
 			singleImageVC.photo = photo
 		} else {

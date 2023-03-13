@@ -170,7 +170,8 @@ final class ProfileViewController: UIViewController {
 		cleanStorage()
 		
 		guard let window = UIApplication.shared.windows.first else {
-			fatalError("Invalid configuration")
+			assertionFailure("Invalid configuration")
+			return
 		}
 		let splashVC = SplashViewController()
 		window.rootViewController = splashVC

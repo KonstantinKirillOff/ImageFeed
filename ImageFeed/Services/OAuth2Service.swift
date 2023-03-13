@@ -42,7 +42,8 @@ final class OAuth2Service {
 		
 		lastCode = code
 		guard let urlRequest = authTokenRequest(code: code) else {
-			fatalError("Bad auth token request")
+			assertionFailure("Bad auth token request")
+			return
 		}
 		
 		let task = networkClient.getObject(dataType: OAuthTokenResponseBody.self, for: urlRequest) { [weak self] result in
