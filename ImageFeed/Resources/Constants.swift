@@ -15,10 +15,11 @@ struct Constants {
     static let baseAuthTokenPath = "/oauth/token"
     
     //MARK: Unsplash api constants
-    static let accessKey = "LUMG6YSLoGTass_HzRDzERd_dmrCMBSHpxqku6yl7P8"
-    static let secretKey = "KKuyMqa_C2GwSdAQwUUxR3jOGTm5C3zeUS1mXD4GZkM"
+    static let accessKey = "DMGBd_bhpgkA43sh0XwoPis264uPwYAHhxnDGdQVaaI"
+    static let secretKey = "gLMPi52tnl_lGIl8WLh70nW6Bq1XhqZzbmdZmgfPFyI"
     static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
     static let accessScope = "public+read_user+write_likes"
+	static let photosPerPage = 10
     
     //MARK: Storage constants
     static let bearerToken = "bearerToken"
@@ -26,4 +27,5 @@ struct Constants {
 
 struct NotificationConstants {
 	static let profileImageProviderDidChange = "ProfileImageProviderDidChange"
+	static let imageListDidChange = "ImageListDidChange"
 }

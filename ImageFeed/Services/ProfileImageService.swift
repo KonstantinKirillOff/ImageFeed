@@ -18,7 +18,7 @@ final class ProfileImageService {
 	
 	func fetchProfileImageURL(_ userName: String, completion: @escaping (Result<String, Error>) -> Void) {
 		guard let urlRequestProfileData = profileImageRequest(username: userName) else { return }
-
+		
 		let task = networkClient.getObject(dataType: ImageURL.self, for: urlRequestProfileData) { [weak self] result in
 			guard let self = self else { return }
 			

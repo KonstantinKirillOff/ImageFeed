@@ -8,11 +8,13 @@
 import UIKit
 import ProgressHUD
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
 	private let profileService = ProfileService.shared
-	private var profileImageServiceObserver: NSObjectProtocol?
+	private var presenter: IAlertPresenterProtocol!
 	
+	private var profileImageServiceObserver: NSObjectProtocol?
 	
 	private lazy var userPickImage: UIImageView = {
 		if let userImage = UIImage(named: "UserPick") {
@@ -52,15 +54,15 @@ final class ProfileViewController: UIViewController {
 		label.font = .systemFont(ofSize: 13, weight: .regular)
 		return label
 	}()
-
+	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		.lightContent
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		presenter = AlertPresenter(delegate: self)
 		view.backgroundColor = UIColor.ypBlack
-		
 		setConstraints()
 		
 		profileImageServiceObserver = NotificationCenter.default
@@ -77,12 +79,24 @@ final class ProfileViewController: UIViewController {
 		}
 		updateAvatar()
 	}
-
+	
 	override func viewDidLayoutSubviews() {
 		userPickImage.layer.cornerRadius = userPickImage.bounds.width / 2
 		userPickImage.clipsToBounds = true
 	}
-
+	
+	@objc private func exitButtonTapped() {
+		let actionYes = UIAlertAction(title: "Да", style: .default) { [weak self] _ in
+			guard let self = self else { return }
+			self.logOutFromProfile()
+		}
+		
+		let actionNo = UIAlertAction(title: "Нет", style: .default)
+		
+		presenter.preparingAlertController(alertTitle: "Пока, пока!",
+										   alertMessage: "Уверены, что хотите выйти?",
+										   alertActions: [actionYes, actionNo])
+	}
 	
 	private func updateAvatar() {
 		guard let profileImageURL = ProfileImageService.shared.avatarURL,
@@ -99,7 +113,7 @@ final class ProfileViewController: UIViewController {
 		userLogin.text = profile.loginName
 		userMessage.text = profile.bio
 	}
-
+	
 	private func configLabel(text: String) -> UILabel {
 		let label = UILabel()
 		label.text = text
@@ -138,8 +152,35 @@ final class ProfileViewController: UIViewController {
 		])
 	}
 	
-	@objc private func exitButtonTapped() {
-		
+	private func cleanCookie() {
+		HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+		WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+			records.forEach { record in
+				WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record]) { }
+			}
+		}
 	}
 	
+	private func cleanStorage() {
+		OAuth2TokenStorage.shared.removeToken()
+	}
+	
+	private func logOutFromProfile() {
+		cleanCookie()
+		cleanStorage()
+		
+		guard let window = UIApplication.shared.windows.first else {
+			assertionFailure("Invalid configuration")
+			return
+		}
+		let splashVC = SplashViewController()
+		window.rootViewController = splashVC
+	}
+	
+}
+
+extension ProfileViewController: IAlertPresenterDelegate {
+	func showAlert(alert: UIAlertController) {
+		present(alert, animated: true)
+	}
 }
