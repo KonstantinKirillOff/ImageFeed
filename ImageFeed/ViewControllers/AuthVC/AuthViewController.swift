@@ -14,7 +14,12 @@ final class AuthViewController: UIViewController {
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == showWebViewSegueIdentifier {
 			guard let webViewVC = segue.destination as? WebViewViewController else { return }
+			let webViewPresenter = WebViewPresenter()
+			
+			webViewVC.presenter = webViewPresenter
 			webViewVC.delegate = self
+			
+			webViewPresenter.view = webViewVC
 		} else {
 			super.prepare(for: segue, sender: sender)
 		}
