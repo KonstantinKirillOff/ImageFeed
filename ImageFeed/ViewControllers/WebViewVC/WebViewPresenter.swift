@@ -13,7 +13,7 @@ fileprivate struct AuthConstants {
 	static let codePath = "/oauth/authorize/native"
 }
 
-public protocol IWebViewPresenterProtocol: AnyObject {
+public protocol IWebViewPresenterProtocol {
 	var view: IWebViewControllerProtocol? { get set }
 	func viewDidLoad()
 	func didUpdateProgressValue(_ newValue: Double)

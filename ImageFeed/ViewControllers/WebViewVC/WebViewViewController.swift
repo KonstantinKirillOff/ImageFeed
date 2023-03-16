@@ -20,7 +20,7 @@ final class WebViewViewController: UIViewController, IWebViewControllerProtocol{
 	@IBOutlet private var progressView: UIProgressView!
 	
 	weak var delegate: IWebViewViewControllerDelegate!
-	weak var presenter: IWebViewPresenterProtocol?
+	var presenter: IWebViewPresenterProtocol?
 	
 	private var estimatedProgressObservation: NSKeyValueObservation?
 	
