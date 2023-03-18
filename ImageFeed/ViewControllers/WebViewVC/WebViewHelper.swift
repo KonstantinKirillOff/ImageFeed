@@ -13,7 +13,7 @@ fileprivate struct AuthConstants {
 	static let codePath = "/oauth/authorize/native"
 }
 
-protocol WebViewHelperProtocol {
+protocol IWebViewHelperProtocol {
 	func authRequest() -> URLRequest?
 	func code(from url: URL) -> String?
 }
@@ -26,7 +26,7 @@ class WebViewHelper {
 	}
 }
 
-extension WebViewHelper: WebViewHelperProtocol {
+extension WebViewHelper: IWebViewHelperProtocol {
 	func authRequest() -> URLRequest? {
 		guard var urlComponents = URLComponents(string: configuration.baseURLString) else { return nil }
 		urlComponents.path = AuthConstants.authPath

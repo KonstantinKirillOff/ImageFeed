@@ -16,9 +16,9 @@ public protocol IWebViewPresenterProtocol {
 
 final class WebViewPresenter: IWebViewPresenterProtocol {
 	weak var view: IWebViewControllerProtocol?
-	var webViewHelper: WebViewHelperProtocol
+	var webViewHelper: IWebViewHelperProtocol
 	
-	init(webViewHelper: WebViewHelperProtocol) {
+	init(webViewHelper: IWebViewHelperProtocol) {
 		self.webViewHelper = webViewHelper
 	}
 	
@@ -44,7 +44,7 @@ final class WebViewPresenter: IWebViewPresenterProtocol {
 		webViewHelper.code(from: url)
 	}
 	
-	private func shouldHideProgress(for value: Float) -> Bool {
+	func shouldHideProgress(for value: Float) -> Bool {
 		abs(value - 1.0) <= 0.0001
 	}
 }
