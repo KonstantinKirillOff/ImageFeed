@@ -24,6 +24,7 @@
 		4387444D29A26C5000402271 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4387444C29A26C5000402271 /* Kingfisher */; };
 		4387445029A2A57B00402271 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 4387444F29A2A57B00402271 /* SwiftKeychainWrapper */; };
 		439977AF29C2CD6700C34172 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977AE29C2CD6700C34172 /* WebViewPresenter.swift */; };
+		439977B129C5739C00C34172 /* WebViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977B029C5739C00C34172 /* WebViewHelper.swift */; };
 		43BE590B2992C60B003A6D09 /* UIBlockProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE590A2992C60B003A6D09 /* UIBlockProgressHUD.swift */; };
 		43CA61652997D36400A724B1 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA61642997D36400A724B1 /* ProfileService.swift */; };
 		43CA616B2997EBCF00A724B1 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA616A2997EBCF00A724B1 /* ProfileResult.swift */; };
@@ -64,6 +65,7 @@
 		4349F56929879EB10071F0F6 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		4349F56B2987A4680071F0F6 /* URLSession+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+extension.swift"; sourceTree = "<group>"; };
 		439977AE29C2CD6700C34172 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
+		439977B029C5739C00C34172 /* WebViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewHelper.swift; sourceTree = "<group>"; };
 		43BE590A2992C60B003A6D09 /* UIBlockProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockProgressHUD.swift; sourceTree = "<group>"; };
 		43CA61642997D36400A724B1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		43CA616A2997EBCF00A724B1 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				4349F5542980634B0071F0F6 /* WebViewViewController.swift */,
 				4340013929A7CA7B00AE4985 /* WebViewViewControllerDelegate.swift */,
 				439977AE29C2CD6700C34172 /* WebViewPresenter.swift */,
+				439977B029C5739C00C34172 /* WebViewHelper.swift */,
 			);
 			path = WebViewVC;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				4349F56C2987A4680071F0F6 /* URLSession+extension.swift in Sources */,
 				43F004C329AB87AE000737C4 /* ImageListService.swift in Sources */,
 				4349F557298256F00071F0F6 /* AuthViewController.swift in Sources */,
+				439977B129C5739C00C34172 /* WebViewHelper.swift in Sources */,
 				4349F56829879D100071F0F6 /* URLRequest+extension.swift in Sources */,
 				4349F5612985AB0A0071F0F6 /* Profile.swift in Sources */,
 				4349F5552980634B0071F0F6 /* WebViewViewController.swift in Sources */,

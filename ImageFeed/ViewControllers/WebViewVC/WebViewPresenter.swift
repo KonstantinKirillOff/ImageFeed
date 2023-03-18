@@ -7,12 +7,6 @@
 
 import Foundation
 
-fileprivate struct AuthConstants {
-	static let responseType = "code"
-	static let authPath = "/oauth/authorize"
-	static let codePath = "/oauth/authorize/native"
-}
-
 public protocol IWebViewPresenterProtocol {
 	var view: IWebViewControllerProtocol? { get set }
 	func viewDidLoad()
@@ -22,9 +16,14 @@ public protocol IWebViewPresenterProtocol {
 
 final class WebViewPresenter: IWebViewPresenterProtocol {
 	weak var view: IWebViewControllerProtocol?
+	var webViewHelper: WebViewHelperProtocol
+	
+	init(webViewHelper: WebViewHelperProtocol) {
+		self.webViewHelper = webViewHelper
+	}
 	
 	func viewDidLoad() {
-		guard let urlRequest = authRequest() else {
+		guard let urlRequest = webViewHelper.authRequest() else {
 			assertionFailure("Bad auth request!")
 			return
 		}
@@ -42,29 +41,7 @@ final class WebViewPresenter: IWebViewPresenterProtocol {
 	}
 	
 	func code(from url: URL) -> String? {
-		if let urlComponents = URLComponents(string: url.absoluteString),
-		   urlComponents.path == AuthConstants.codePath,
-		   let items = urlComponents.queryItems,
-		   let codeItems = items.first(where: { $0.name == AuthConstants.responseType }) {
-			return codeItems.value
-		} else {
-			return nil
-		}
-	}
-	
-	private func authRequest() -> URLRequest? {
-		guard var urlComponents = URLComponents(string: Constants.baseURLString) else { return nil }
-		urlComponents.path = AuthConstants.authPath
-		urlComponents.queryItems = [
-			URLQueryItem(name: "client_id", value: Constants.accessKey),
-			URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-			URLQueryItem(name: "response_type", value: AuthConstants.responseType),
-			URLQueryItem(name: "scope", value: Constants.accessScope),
-		]
-		if let url = urlComponents.url {
-			return URLRequest(url: url)
-		}
-		return nil
+		webViewHelper.code(from: url)
 	}
 	
 	private func shouldHideProgress(for value: Float) -> Bool {
