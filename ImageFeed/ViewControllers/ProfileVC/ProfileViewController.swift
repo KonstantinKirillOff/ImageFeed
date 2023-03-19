@@ -10,10 +10,16 @@ import ProgressHUD
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
-	private let profileService = ProfileService.shared
-	private var presenter: IAlertPresenterProtocol!
+public protocol IProfileViewControllerProtocol: AnyObject {
+	var presenter: IProfileViewPresenterProtocol? { get set }
 	
+	func logOutFromProfile()
+	func updateAvatar(avatarImage: UIImage)
+}
+
+final class ProfileViewController: UIViewController, IProfileViewControllerProtocol {
+	private let profileService = ProfileService.shared
+	private var alertPresenter: IAlertPresenterProtocol!
 	private var profileImageServiceObserver: NSObjectProtocol?
 	
 	private lazy var userPickImage: UIImageView = {
@@ -55,13 +61,15 @@ final class ProfileViewController: UIViewController {
 		return label
 	}()
 	
+	var presenter: IProfileViewPresenterProtocol?
+	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		.lightContent
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		presenter = AlertPresenter(delegate: self)
+		alertPresenter = AlertPresenter(delegate: self)
 		view.backgroundColor = UIColor.ypBlack
 		setConstraints()
 		
@@ -72,12 +80,12 @@ final class ProfileViewController: UIViewController {
 						 using: { [weak self] _ in
 				
 				guard let self = self else { return }
-				self.updateAvatar()
+				self.presenter?.getImage(for: self.userPickImage)
 			})
 		if let profile = profileService.profile {
 			updateProfileDetails(profile: profile)
 		}
-		updateAvatar()
+		presenter?.getImage(for: userPickImage)
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -93,19 +101,9 @@ final class ProfileViewController: UIViewController {
 		
 		let actionNo = UIAlertAction(title: "Нет", style: .default)
 		
-		presenter.preparingAlertController(alertTitle: "Пока, пока!",
+		alertPresenter.preparingAlertController(alertTitle: "Пока, пока!",
 										   alertMessage: "Уверены, что хотите выйти?",
 										   alertActions: [actionYes, actionNo])
-	}
-	
-	private func updateAvatar() {
-		guard let profileImageURL = ProfileImageService.shared.avatarURL,
-			  let imageURL = URL(string: profileImageURL)
-		else { return }
-		
-		userPickImage.kf.indicatorType = .activity
-		userPickImage.kf.setImage(with: imageURL,
-								  placeholder: UIImage(systemName: "person.crop.circle"))
 	}
 	
 	private func updateProfileDetails(profile: Profile) {
@@ -152,31 +150,13 @@ final class ProfileViewController: UIViewController {
 		])
 	}
 	
-	private func cleanCookie() {
-		HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-		WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
-			records.forEach { record in
-				WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record]) { }
-			}
-		}
+	func logOutFromProfile() {
+		presenter?.logOut()
 	}
 	
-	private func cleanStorage() {
-		OAuth2TokenStorage.shared.removeToken()
+	func updateAvatar(avatarImage: UIImage) {
+		userPickImage.image = avatarImage
 	}
-	
-	private func logOutFromProfile() {
-		cleanCookie()
-		cleanStorage()
-		
-		guard let window = UIApplication.shared.windows.first else {
-			assertionFailure("Invalid configuration")
-			return
-		}
-		let splashVC = SplashViewController()
-		window.rootViewController = splashVC
-	}
-	
 }
 
 extension ProfileViewController: IAlertPresenterDelegate {
