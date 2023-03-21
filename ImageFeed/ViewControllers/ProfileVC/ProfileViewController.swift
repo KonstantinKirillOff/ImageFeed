@@ -11,8 +11,6 @@ import Kingfisher
 import WebKit
 
 public protocol IProfileViewControllerProtocol: AnyObject {
-	var presenter: IProfileViewPresenterProtocol? { get set }
-	
 	func logOutFromProfile()
 	func updateAvatar(avatarImage: UIImage)
 }
@@ -61,7 +59,7 @@ final class ProfileViewController: UIViewController, IProfileViewControllerProto
 		return label
 	}()
 	
-	var presenter: IProfileViewPresenterProtocol?
+	private var presenter: IProfileViewPresenterProtocol?
 	
 	override var preferredStatusBarStyle: UIStatusBarStyle {
 		.lightContent
@@ -148,6 +146,10 @@ final class ProfileViewController: UIViewController, IProfileViewControllerProto
 			userMessage.leadingAnchor.constraint(equalTo: userPickImage.leadingAnchor),
 			userMessage.topAnchor.constraint(equalTo: userLogin.bottomAnchor, constant: 8)
 		])
+	}
+	func configure(_ presenter: IProfileViewPresenterProtocol) {
+		self.presenter = presenter
+		self.presenter?.view = self
 	}
 	
 	func logOutFromProfile() {
