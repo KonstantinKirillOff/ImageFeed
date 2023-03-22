@@ -18,16 +18,15 @@ protocol IImageListPresenterProtocol {
 
 final class ImageListPresenter: IImageListPresenterProtocol {
 	var view: IImageListViewControllerProtocol?
-	let imageListHelper: IImageListHelperProtocol
-	
-	private let imageListService = ImageListService.shared
+
+	private let imageListService: IImageListServiceProtocol
 	private var imageListServiceObserver: NSObjectProtocol?
 	private (set) var photos: [Photo] = []
 	
-	init(imageListHelper: IImageListHelperProtocol) {
-		self.imageListHelper = imageListHelper
+	init(imageListService: IImageListServiceProtocol) {
+		self.imageListService = imageListService
 		
-		imageListServiceObserver = NotificationCenter.default
+		self.imageListServiceObserver = NotificationCenter.default
 			.addObserver(forName: ImageListService.imageListDidChangeNotification,
 						 object: nil,
 						 queue: .main,
@@ -37,7 +36,7 @@ final class ImageListPresenter: IImageListPresenterProtocol {
 				
 				let startIndex = self.photos.count
 				self.updatePhotos()
-				self.view?.updateTableViewAnimated(startIndex: startIndex, newCount: self.imageListService.photos.count)
+				self.view?.updateTableViewAnimated(startIndex: startIndex, newCount: imageListService.photos.count)
 			})
 	}
 	

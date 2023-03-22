@@ -31,7 +31,7 @@
 		439977C429C73D2B00C34172 /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977C329C73D2B00C34172 /* ProfileViewPresenter.swift */; };
 		439977C629C740F000C34172 /* ProfileViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977C529C740F000C34172 /* ProfileViewHelper.swift */; };
 		439977C829C75A1800C34172 /* ImageListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977C729C75A1800C34172 /* ImageListPresenter.swift */; };
-		439977CA29C75C0000C34172 /* ImageListHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977C929C75C0000C34172 /* ImageListHelper.swift */; };
+		439977CC29CA2FB000C34172 /* ImageListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439977CB29CA2FB000C34172 /* ImageListTests.swift */; };
 		43BE590B2992C60B003A6D09 /* UIBlockProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BE590A2992C60B003A6D09 /* UIBlockProgressHUD.swift */; };
 		43CA61652997D36400A724B1 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA61642997D36400A724B1 /* ProfileService.swift */; };
 		43CA616B2997EBCF00A724B1 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CA616A2997EBCF00A724B1 /* ProfileResult.swift */; };
@@ -90,7 +90,7 @@
 		439977C329C73D2B00C34172 /* ProfileViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenter.swift; sourceTree = "<group>"; };
 		439977C529C740F000C34172 /* ProfileViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewHelper.swift; sourceTree = "<group>"; };
 		439977C729C75A1800C34172 /* ImageListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListPresenter.swift; sourceTree = "<group>"; };
-		439977C929C75C0000C34172 /* ImageListHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListHelper.swift; sourceTree = "<group>"; };
+		439977CB29CA2FB000C34172 /* ImageListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListTests.swift; sourceTree = "<group>"; };
 		43BE590A2992C60B003A6D09 /* UIBlockProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockProgressHUD.swift; sourceTree = "<group>"; };
 		43CA61642997D36400A724B1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		43CA616A2997EBCF00A724B1 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
@@ -202,6 +202,7 @@
 				439977B829C590BA00C34172 /* WebViewTests.swift */,
 				439977BF29C5929200C34172 /* WebViewPresenterSpy.swift */,
 				439977C129C5972A00C34172 /* WebViewVCSpy.swift */,
+				439977CB29CA2FB000C34172 /* ImageListTests.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -283,7 +284,6 @@
 				43F5D9B2295ABD6F00BADC86 /* ImagesListViewController.swift */,
 				43F5D9E92966952900BADC86 /* GradientView.swift */,
 				439977C729C75A1800C34172 /* ImageListPresenter.swift */,
-				439977C929C75C0000C34172 /* ImageListHelper.swift */,
 			);
 			path = ImagesListVC;
 			sourceTree = "<group>";
@@ -433,6 +433,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				439977B929C590BA00C34172 /* WebViewTests.swift in Sources */,
+				439977CC29CA2FB000C34172 /* ImageListTests.swift in Sources */,
 				439977C029C5929200C34172 /* WebViewPresenterSpy.swift in Sources */,
 				439977C229C5972A00C34172 /* WebViewVCSpy.swift in Sources */,
 			);
@@ -459,7 +460,6 @@
 				43CA619F299B588700A724B1 /* ProfileImageURL.swift in Sources */,
 				43F5D9B3295ABD6F00BADC86 /* ImagesListViewController.swift in Sources */,
 				43F5D9E3296561C500BADC86 /* ImageListCell.swift in Sources */,
-				439977CA29C75C0000C34172 /* ImageListHelper.swift in Sources */,
 				43E2A548299FD942004FCAAC /* AlertPresenterDelegate.swift in Sources */,
 				43E2394A29A65EFB006E92AA /* ProfileViewController.swift in Sources */,
 				4349F55F298599EA0071F0F6 /* OAuth2TokenStorage.swift in Sources */,

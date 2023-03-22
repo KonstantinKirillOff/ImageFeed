@@ -14,8 +14,7 @@ final class TabBarViewController: UITabBarController {
 		
 		//ImageListVC
 		let imagesListViewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as! ImagesListViewController
-		let imageListHelper = ImageListHelper()
-		let imageListPresenter = ImageListPresenter(imageListHelper: imageListHelper)
+		let imageListPresenter = ImageListPresenter(imageListService: ImageListService.shared)
 		imagesListViewController.configure(imageListPresenter)
 		
 		imagesListViewController.tabBarItem = UITabBarItem(
