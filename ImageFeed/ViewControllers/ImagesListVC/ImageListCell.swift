@@ -64,6 +64,7 @@ final class ImageListCell: UITableViewCell {
 		imageDateLabel.text =  photo.createAt != nil ? dateFormatter.string(from: photo.createAt!) : ""
 		
 		setIsLiked(isLike: photo.isLiked)
+		heartButton.accessibilityIdentifier = "heartButton"
 	}
 	
 	func setIsLiked(isLike: Bool) {

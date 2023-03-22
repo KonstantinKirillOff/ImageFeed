@@ -10,6 +10,7 @@ import Kingfisher
 
 final class SingleImageViewController: UIViewController {
 	@IBOutlet private var imageView: UIImageView!
+	@IBOutlet private weak var backButton: UIButton!
 	@IBOutlet private var scrollView: UIScrollView!
 	
 	private var alertPresenter: IAlertPresenterProtocol!
@@ -23,6 +24,7 @@ final class SingleImageViewController: UIViewController {
 		scrollView.maximumZoomScale = 1.25
 		scrollView.minimumZoomScale = 0.1
 		
+		backButton.accessibilityIdentifier = "backButton"
 		setImage()
 	}
 	

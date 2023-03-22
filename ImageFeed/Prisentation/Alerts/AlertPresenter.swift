@@ -41,6 +41,7 @@ struct AlertPresenter: IAlertPresenterProtocol {
 		let alert = UIAlertController(title: alertTitle,
 									  message: alertMessage,
 									  preferredStyle: .alert)
+		alert.view.accessibilityIdentifier = "byeAlert"
 		
 		alertActions.forEach { action in
 			alert.addAction(action)

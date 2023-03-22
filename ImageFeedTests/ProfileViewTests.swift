@@ -53,7 +53,6 @@ final class ProfileViewTests: XCTestCase {
 		let window = UIApplication.shared.windows.first!
 		profileVC.logOutFromProfile()
 		
-		
 		//then
 		XCTAssertTrue(window.rootViewController is SplashViewController)
 	}

@@ -7,8 +7,8 @@
 
 import Foundation
 
-let AccessKey = "DMGBd_bhpgkA43sh0XwoPis264uPwYAHhxnDGdQVaaI"
-let SecretKey = "gLMPi52tnl_lGIl8WLh70nW6Bq1XhqZzbmdZmgfPFyI"
+let AccessKey = "LUMG6YSLoGTass_HzRDzERd_dmrCMBSHpxqku6yl7P8"
+let SecretKey = "KKuyMqa_C2GwSdAQwUUxR3jOGTm5C3zeUS1mXD4GZkM"
 let RedirectURI = "urn:ietf:wg:oauth:2.0:oob"
 let AccessScope = "public+read_user+write_likes"
 

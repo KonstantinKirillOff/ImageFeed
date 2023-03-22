@@ -191,6 +191,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="WeM-VJ-JTR" id="8aB-4B-jcw"/>
                         <outlet property="imageView" destination="GZe-DN-f6K" id="8tb-cA-xZp"/>
                         <outlet property="scrollView" destination="eYh-t7-i4u" id="pf7-Vs-plq"/>
                     </connections>
@@ -217,6 +218,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndG-wN-ctA">
                                 <rect key="frame" x="16" y="640" width="343" height="48"/>
                                 <color key="backgroundColor" name="YP White"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="wbX-Nn-7Eb"/>
                                 </constraints>
@@ -260,7 +262,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hE5-MH-aqm">
+                            <wkWebView contentMode="scaleToFill" restorationIdentifier="UnsplashWebView" translatesAutoresizingMaskIntoConstraints="NO" id="hE5-MH-aqm">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <wkWebViewConfiguration key="configuration">

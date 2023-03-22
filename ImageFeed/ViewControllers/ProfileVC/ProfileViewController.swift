@@ -30,6 +30,7 @@ final class ProfileViewController: UIViewController, IProfileViewControllerProto
 			let button = UIButton.systemButton(with: exitImage, target: self, action: #selector(exitButtonTapped))
 			button.tintColor = UIColor.ypRed
 			button.translatesAutoresizingMaskIntoConstraints = false
+			button.accessibilityIdentifier = "escapeButton"
 			view.addSubview(button)
 			return button
 		}
