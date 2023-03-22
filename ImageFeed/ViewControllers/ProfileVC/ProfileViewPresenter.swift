@@ -12,12 +12,14 @@ public protocol IProfileViewPresenterProtocol {
 	var view: IProfileViewControllerProtocol? { get set }
 	
 	func logOut()
-	func getImage(for imageView: UIImageView)
+	func getImage(for imageView: UIImageView, imageURL: URL)
 }
 
 final class ProfileViewPresenter: IProfileViewPresenterProtocol {
 	weak var view: IProfileViewControllerProtocol?
 	var profileViewHelper: IProfileViewHelperProtocol
+	
+	private let profileService = ProfileService.shared
 	
 	init(profileViewHelper: IProfileViewHelperProtocol) {
 		self.profileViewHelper = profileViewHelper
@@ -35,21 +37,9 @@ final class ProfileViewPresenter: IProfileViewPresenterProtocol {
 		window.rootViewController = splashVC
 	}
 	
-	func getImage(for imageView: UIImageView) {
-		guard let profileImageURL = ProfileImageService.shared.avatarURL,
-			  let imageURL = URL(string: profileImageURL)
-		else { return }
-		
+	func getImage(for imageView: UIImageView, imageURL: URL) {
 		imageView.kf.indicatorType = .activity
-		imageView.kf.setImage(with: imageURL) { [weak self] result in
-			guard let self = self else { return }
-			switch result {
-			case .success(let value):
-				self.view?.updateAvatar(avatarImage: value.image)
-			case .failure(_):
-				self.view?.updateAvatar(avatarImage: UIImage(systemName: "person.crop.circle")!)
-			}
-		}
+		imageView.kf.setImage(with: imageURL, placeholder: UIImage(systemName: "person.crop.circle")!)
 	}
 }
 

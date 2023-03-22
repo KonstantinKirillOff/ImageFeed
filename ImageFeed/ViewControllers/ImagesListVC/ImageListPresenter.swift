@@ -13,6 +13,7 @@ protocol IImageListPresenterProtocol {
 	
 	func getCellHeight(for photo: Photo, tableViewWidth: CGFloat) -> CGFloat
 	func fetchPhotosNextPage()
+	func updatePhotos()
 	func changeLike(for photo: Photo, handler: @escaping (Result<Void, Error>) -> Void)
 }
 
@@ -54,21 +55,8 @@ final class ImageListPresenter: IImageListPresenterProtocol {
 		imageListService.fetchPhotosNextPage()
 	}
 	
-	private func updatePhotos() {
+	func updatePhotos() {
 		photos = imageListService.photos
-	}
-	
-	private func replacePhotoWithNewValue(photo: Photo) {
-		if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
-			let newPhoto = Photo(id: photo.id,
-								 size: photo.size,
-								 createAt: photo.createAt,
-								 welcomeDescription: photo.welcomeDescription,
-								 thumbImageURL: photo.thumbImageURL,
-								 largeImageURL: photo.largeImageURL,
-								 isLiked: !photo.isLiked)
-			photos[index] = newPhoto
-		}
 	}
 	
 	func changeLike(for photo: Photo, handler: @escaping (Result<Void, Error>) -> Void) {
@@ -86,6 +74,19 @@ final class ImageListPresenter: IImageListPresenterProtocol {
 				UIBlockingProgressHUD.dismiss()
 				handler(.failure(error))
 			}
+		}
+	}
+	
+	private func replacePhotoWithNewValue(photo: Photo) {
+		if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
+			let newPhoto = Photo(id: photo.id,
+								 size: photo.size,
+								 createAt: photo.createAt,
+								 welcomeDescription: photo.welcomeDescription,
+								 thumbImageURL: photo.thumbImageURL,
+								 largeImageURL: photo.largeImageURL,
+								 isLiked: !photo.isLiked)
+			photos[index] = newPhoto
 		}
 	}
 }

@@ -6,13 +6,11 @@
 //
 
 import UIKit
-import ProgressHUD
-import Kingfisher
 import WebKit
 
-public protocol IProfileViewControllerProtocol: AnyObject {
+public protocol IProfileViewControllerProtocol: AnyObject {	
 	func logOutFromProfile()
-	func updateAvatar(avatarImage: UIImage)
+	func updateAvatar(avatarImage: UIImageView)
 }
 
 final class ProfileViewController: UIViewController, IProfileViewControllerProtocol {
@@ -20,7 +18,7 @@ final class ProfileViewController: UIViewController, IProfileViewControllerProto
 	private var alertPresenter: IAlertPresenterProtocol!
 	private var profileImageServiceObserver: NSObjectProtocol?
 	
-	private lazy var userPickImage: UIImageView = {
+	private (set) lazy var userPickImage: UIImageView = {
 		if let userImage = UIImage(named: "UserPick") {
 			return configImage(image: userImage)
 		}
@@ -76,14 +74,14 @@ final class ProfileViewController: UIViewController, IProfileViewControllerProto
 						 object: nil,
 						 queue: .main,
 						 using: { [weak self] _ in
-				
+
 				guard let self = self else { return }
-				self.presenter?.getImage(for: self.userPickImage)
+				self.updateAvatar(avatarImage: self.userPickImage)
 			})
 		if let profile = profileService.profile {
 			updateProfileDetails(profile: profile)
 		}
-		presenter?.getImage(for: userPickImage)
+		updateAvatar(avatarImage: userPickImage)
 	}
 	
 	override func viewDidLayoutSubviews() {
@@ -156,8 +154,12 @@ final class ProfileViewController: UIViewController, IProfileViewControllerProto
 		presenter?.logOut()
 	}
 	
-	func updateAvatar(avatarImage: UIImage) {
-		userPickImage.image = avatarImage
+	func updateAvatar(avatarImage: UIImageView) {
+		guard let profileImageURL = ProfileImageService.shared.avatarURL,
+			  let imageURL = URL(string: profileImageURL)
+		else { return }
+		
+		presenter?.getImage(for: avatarImage, imageURL: imageURL)
 	}
 }
 
